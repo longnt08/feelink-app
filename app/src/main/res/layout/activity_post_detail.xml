@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Status Bar (This is handled by the system, just for visual representation) -->
+
+    <!-- Top Action Bar with Settings Icon -->
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#F5F5F5">
+
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_button"
+            android:padding="8dp"
+            android:src="@drawable/ic_setting" />
+    </RelativeLayout>
+
+    <!-- Horizontal lines for visual separation -->
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/topBar"
+        android:background="#E0E0E0" />
+
+    <!-- Profile Section -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@id/divider1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="#D3D3D3"
+        app:civ_border_width="0dp" />
+
+    <!-- Username Field -->
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/topBar"
+        android:layout_alignBottom="@+id/profileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:layout_marginBottom="47dp"
+        android:src="@drawable/ic_person" />
+
+    <EditText
+        android:id="@+id/usernameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileImage"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="Your Username"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <!-- Post Section -->
+    <TextView
+        android:id="@+id/postLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameField"
+        android:layout_marginTop="24dp"
+        android:text="Your Post"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/postContent"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/postLabel"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_edittext"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:padding="8dp" />
+
+    <!-- Reply Button -->
+    <Button
+        android:id="@+id/replyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/postContent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:paddingHorizontal="32dp"
+        android:text="Reply"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black" />
+
+    <!-- Comment Field -->
+    <EditText
+        android:id="@+id/commentField"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/replyButton"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:padding="8dp" />
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="#B0BEC5"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/menuButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:src="@drawable/ic_menu" />
+
+        <ImageView
+            android:id="@+id/profileButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:src="@drawable/ic_person" />
+    </LinearLayout>
+</RelativeLayout>

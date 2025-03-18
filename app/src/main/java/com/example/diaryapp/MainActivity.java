@@ -14,5 +14,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish(); // Đóng MainActivity để không quay lại khi nhấn "Back"
+
+    }
+
+    private void openPostDetail() {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        startActivity(intent);
     }
 }
