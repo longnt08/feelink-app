@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@drawable/register_background">
 
     <!-- Status Bar (This is handled by the system, just for visual representation) -->
 
@@ -46,14 +46,18 @@
         app:civ_border_width="0dp" />
 
     <!-- Username Field -->
+
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@+id/topBar"
+        android:layout_alignStart="@+id/profileImage"
+        android:layout_alignEnd="@+id/profileImage"
         android:layout_alignBottom="@+id/profileImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
-        android:layout_marginBottom="47dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="41dp"
         android:src="@drawable/ic_person" />
 
     <EditText
