@@ -4,54 +4,148 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Bố cục chính chia đôi màn hình -->
-    <LinearLayout
+    <!-- Giao diện khi không có bàn phím - xoay ngang -->
+    <FrameLayout
+        android:id="@+id/normalLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <!-- Phần bên trái chiếm 1/2 màn hình -->
-        <FrameLayout
-            android:layout_width="0dp"
+        <!-- Bố cục chính chia đôi màn hình -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:orientation="horizontal">
 
-            <!-- Hình nền bên trái -->
-            <ImageView
-                android:id="@+id/loginBackground"
-                android:layout_width="match_parent"
+            <!-- Phần bên trái chiếm 1/2 màn hình -->
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/login_background" />
+                android:layout_weight="1">
 
-            <!-- Chữ DIARY nằm theo chiều dọc -->
+                <!-- Hình nền bên trái -->
+                <ImageView
+                    android:id="@+id/loginBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/login_background" />
+
+                <!-- Chữ DIARY nằm theo chiều dọc -->
+                <TextView
+                    android:id="@+id/tvDiaryVertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="DIARY"
+                    android:textColor="@android:color/black"
+                    android:textSize="70sp"
+                    android:rotation="90" />
+            </FrameLayout>
+
+            <!-- Phần bên phải chiếm 1/2 màn hình -->
+            <LinearLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingHorizontal="20dp">
+
+                <!-- Ô nhập Username -->
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:gravity="center"
+                    android:hint="Username"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+
+                <!-- Ô nhập Password -->
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:gravity="center"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+
+                <!-- Nút Đăng nhập -->
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_button"
+                    android:backgroundTint="@null"
+                    android:text="LOGIN"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+                <!-- Text Đăng ký -->
+                <TextView
+                    android:id="@+id/tvSignup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Signup"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:clickable="true"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Giao diện khi có bàn phím - xoay ngang -->
+    <LinearLayout
+        android:id="@+id/keyboardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <!-- Phần bên trái -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Chữ DIARY không xoay -->
             <TextView
-                android:id="@+id/tvDiary"
+                android:id="@+id/tvDiaryHorizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="DIARY"
                 android:textColor="@android:color/black"
-                android:textSize="70sp"
-                android:rotation="90" />
-        </FrameLayout>
+                android:textSize="50sp" />
+        </LinearLayout>
 
-        <!-- Phần bên phải chiếm 1/2 màn hình -->
+        <!-- Phần bên phải -->
         <LinearLayout
-            android:id="@+id/contentLayout"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:paddingHorizontal="20dp">
+            android:padding="20dp">
 
             <!-- Ô nhập Username -->
             <EditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etUsernameKeyboard"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="center"
                 android:hint="Username"
@@ -60,10 +154,10 @@
 
             <!-- Ô nhập Password -->
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etPasswordKeyboard"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="center"
                 android:hint="Password"
@@ -73,10 +167,10 @@
 
             <!-- Nút Đăng nhập -->
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnLoginKeyboard"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="@null"
                 android:text="LOGIN"
@@ -86,10 +180,9 @@
 
             <!-- Text Đăng ký -->
             <TextView
-                android:id="@+id/tvSignup"
+                android:id="@+id/tvSignupKeyboard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:text="Signup"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
