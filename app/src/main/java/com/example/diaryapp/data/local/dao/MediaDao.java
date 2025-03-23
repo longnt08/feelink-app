@@ -1,10 +1,10 @@
-package com.example.diaryapp.data.dao;
+package com.example.diaryapp.data.local.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.diaryapp.data.entities.Media;
+import com.example.diaryapp.data.local.entities.Media;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package com.example.diaryapp.data.dao;
+package com.example.diaryapp.data.local.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.diaryapp.data.entities.Entry;
+import com.example.diaryapp.data.local.entities.Entry;
 
 import java.util.List;
 
@@ -12,6 +12,9 @@ import java.util.List;
 public interface EntryDao {
     @Insert
     long insertEntry(Entry entry);
+
+    @Insert
+    void insertNewEntry(Entry entry);
 
     @Query("SELECT * FROM entries WHERE user_id  = :userId ORDER BY created_at DESC")
     List<Entry> getEntriesByUserId(int userId);

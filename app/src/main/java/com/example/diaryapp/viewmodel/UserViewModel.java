@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.diaryapp.data.entities.User;
-import com.example.diaryapp.repository.UserRepository;
+import com.example.diaryapp.data.local.entities.User;
+import com.example.diaryapp.data.repository.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {
     private UserRepository repository;

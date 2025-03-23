@@ -1,4 +1,4 @@
-package com.example.diaryapp.data.entities;
+package com.example.diaryapp.data.local.entities;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -27,4 +27,21 @@ public class Entry {
 
     @ColumnInfo(name = "updated_at")
     public long updatedAt;
+
+    public Entry(int userId, String title, String content, long createdAt, long updatedAt) {
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

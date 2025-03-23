@@ -1,4 +1,4 @@
-package com.example.diaryapp.data.entities;
+package com.example.diaryapp.data.local.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

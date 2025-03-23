@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.diaryapp.data.entities.Settings;
-import com.example.diaryapp.repository.SettingsRepository;
+import com.example.diaryapp.data.local.entities.Settings;
+import com.example.diaryapp.data.repository.SettingsRepository;
 
 public class SettingsViewModel extends AndroidViewModel {
     private SettingsRepository repository;

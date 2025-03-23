@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.diaryapp.R;
-import com.example.diaryapp.data.entities.Settings;
+import com.example.diaryapp.data.local.entities.Settings;
 import com.example.diaryapp.viewmodel.SettingsViewModel;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         darkModeSwitch = findViewById(R.id.switch_dark_mode);
         languageSpinner = findViewById(R.id.spinner_language);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, new String[]{"Englis", "Tiếng Việt", "Français"});
+                android.R.layout.simple_spinner_item, new String[]{"Englis", "Tiếng Việt", "Latin"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 

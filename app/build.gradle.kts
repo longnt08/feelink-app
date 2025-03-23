@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.diaryapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.diaryapp"
@@ -44,4 +44,5 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 }

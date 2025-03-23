@@ -1,16 +1,16 @@
-package com.example.diaryapp.repository;
+package com.example.diaryapp.data.repository;
 
 import android.app.Application;
 
-import com.example.diaryapp.data.JournalDatabase;
-import com.example.diaryapp.data.dao.UserDao;
-import com.example.diaryapp.data.entities.User;
+import com.example.diaryapp.data.DiaryDatabase;
+import com.example.diaryapp.data.local.dao.UserDao;
+import com.example.diaryapp.data.local.entities.User;
 
 public class UserRepository {
     private UserDao userDao;
 
     public UserRepository(Application application) {
-        JournalDatabase db = JournalDatabase.getInstance(application);
+        DiaryDatabase db = DiaryDatabase.getInstance(application);
         userDao = db.userDao();
     }
 

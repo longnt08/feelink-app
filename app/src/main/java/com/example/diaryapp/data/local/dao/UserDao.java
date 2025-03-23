@@ -1,12 +1,11 @@
-package com.example.diaryapp.data.dao;
+package com.example.diaryapp.data.local.dao;
 
 import androidx.room.Dao;
-import androidx.room.Index;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.diaryapp.data.entities.User;
+import com.example.diaryapp.data.local.entities.User;
 
 @Dao
 public interface UserDao {
