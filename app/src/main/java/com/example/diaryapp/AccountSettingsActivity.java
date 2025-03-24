@@ -29,7 +29,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         ImageView backButton = findViewById(R.id.backButton); // ID của nút back
         backButton.setOnClickListener(v -> {
-            finish(); // Đóng Activity hiện tại và quay lại Activity trước đó
+            finish();
         });
 
         avatarImage = findViewById(R.id.avatarImage);
