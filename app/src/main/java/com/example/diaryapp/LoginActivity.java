@@ -191,7 +191,14 @@ public class LoginActivity extends AppCompatActivity {
                 btnLogin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Xử lý đăng nhập ở đây
+                        // TODO: Thực hiện kiểm tra thông tin đăng nhập ở đây
+                        boolean loginSuccess = true; // Thay bằng điều kiện thực tế
+
+                        if (loginSuccess) {
+                            Intent intent = new Intent(LoginActivity.this, QuickLoginActivity.class);
+                            startActivity(intent);
+                            finish(); // Đóng LoginActivity để không thể quay lại bằng nút Back
+                        }
                     }
                 });
             }
@@ -212,10 +219,16 @@ public class LoginActivity extends AppCompatActivity {
                     btnLoginKeyboard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Xử lý đăng nhập ở đây
+                            boolean loginSuccess = true; // Kiểm tra đăng nhập
+                            if (loginSuccess) {
+                                Intent intent = new Intent(LoginActivity.this, QuickLoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }
                     });
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -320,3 +333,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+
