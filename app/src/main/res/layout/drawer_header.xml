@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/purple_500"
+    android:background="@color/teal_700"
     android:layout_width="match_parent"
-    android:layout_height="160dp">
+    android:layout_height="100dp">
 
     <TextView
-        android:text="Hello"
+        android:text="Username"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:layout_width="wrap_content"

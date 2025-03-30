@@ -2,10 +2,16 @@ package com.example.diaryapp.data.local.entities;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+import android.os.Build;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Entity(tableName = "entries",
         foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id", onDelete = CASCADE))
@@ -43,5 +49,18 @@ public class Entry {
 
     public String getContent() {
         return content;
+    }
+
+    public String getCreatedAt() {
+        DateTimeFormatter formatter = null;
+        String formattedDate = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withZone(ZoneId.systemDefault());
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formattedDate = formatter.format(Instant.ofEpochMilli(createdAt));
+        }
+
+        return formattedDate;
     }
 }

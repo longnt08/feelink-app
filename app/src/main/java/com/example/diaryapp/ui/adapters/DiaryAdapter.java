@@ -14,8 +14,10 @@ import com.example.diaryapp.data.local.entities.Entry;
 
 import java.util.List;
 
-public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> {
+public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
     private List<Entry> entries;
     private Context context;
 
@@ -24,31 +26,55 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         this.entries = entries;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? TYPE_HEADER : TYPE_ITEM;
+    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.diary_row, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(context).inflate(R.layout.recycle_header, parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_row, parent, false);
+            return new DiaryViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DiaryAdapter.ViewHolder holder, int position) {
-        Entry entry = entries.get(position);
-        holder.diaryTitle.setText(entry.getTitle());
-        holder.diaryContent.setText(entry.getContent());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof DiaryViewHolder) {
+            int actualPosition = position -1;
+            ((DiaryViewHolder) holder).bind(entries.get(actualPosition));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return entries.size();
+        return entries.size() + 1;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView diaryTitle, diaryContent;
-        public ViewHolder(@NonNull View itemView) {
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public HeaderViewHolder(View itemView) {
             super(itemView);
+        }
+    }
+
+    public static class DiaryViewHolder extends RecyclerView.ViewHolder {
+        TextView diaryTitle, diaryContent, diaryDate;
+        public DiaryViewHolder(@NonNull View itemView) {
+            super(itemView);
+            diaryDate = itemView.findViewById(R.id.diaryDate);
             diaryTitle = itemView.findViewById(R.id.diaryTitle);
             diaryContent = itemView.findViewById(R.id.diaryContent);
+        }
+
+        void bind(Entry entry) {
+            diaryDate.setText(entry.getCreatedAt());
+            diaryTitle.setText(entry.getTitle());
+            diaryContent.setText(entry.getContent());
         }
     }
 }
