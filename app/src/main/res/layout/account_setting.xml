@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Account Setting Page"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/back_button" />
+
+    <!-- Avatar Image -->
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_default_avatar"
+        android:scaleType="centerCrop"
+        android:background="@drawable/avatar_background"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Change Avatar Button -->
+    <Button
+        android:id="@+id/changeAvatarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Avatar"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Username Text -->
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Username"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/changeUsernameButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Username"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/changePasswordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffff" />
+</LinearLayout>
