@@ -1,4 +1,4 @@
-package com.example.diaryapp;
+package com.example.diaryapp.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

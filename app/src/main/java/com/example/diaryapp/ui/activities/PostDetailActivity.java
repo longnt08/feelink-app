@@ -1,5 +1,5 @@
 // PostDetailActivity.java
-package com.example.diaryapp;
+package com.example.diaryapp.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.diaryapp.R;
 
 public class PostDetailActivity extends AppCompatActivity {
 

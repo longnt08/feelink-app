@@ -34,12 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    DiaryDatabase diaryDatabase;
-    RecyclerView recyclerView;
-    DiaryAdapter diaryAdapter;
-    List<Entry> entries;
-
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -86,33 +80,6 @@ public class MainActivity extends AppCompatActivity {
             v.startAnimation(rotateOpen);
             Toast.makeText(this, "Your account", Toast.LENGTH_SHORT).show();
         });
-
-
-
-
-        diaryDatabase = Room.databaseBuilder(getApplicationContext(),
-                DiaryDatabase.class, "diary_db")
-                .allowMainThreadQueries()
-                .build();
-        User user = new User();
-        user.username = "Goku";
-        user.email = "goku@gmail.com";
-        user.passwordHash = "12345678";
-        user.createdAt = System.currentTimeMillis();
-        long res = diaryDatabase.userDao().insertUser(user);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-       entries = new ArrayList<>();
-       entries.add(new Entry(3, "23/3/2025", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "23/3/2023", "this is the demo 1", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "26/3/2025", "this is the demo 2", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "12/3/2025", "this is the demo 3", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "8/3/2025", "this is the demo 4", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "4/3/2025", "this is the demo 5", System.currentTimeMillis(), System.currentTimeMillis()));
-
-       diaryAdapter = new DiaryAdapter(this, entries);
-       recyclerView.setAdapter(diaryAdapter);
 
     }
 

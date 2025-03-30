@@ -1,4 +1,4 @@
-package com.example.diaryapp;
+package com.example.diaryapp.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.diaryapp.R;
 
 import java.io.IOException;
 

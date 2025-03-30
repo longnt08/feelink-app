@@ -1,4 +1,4 @@
-package com.example.diaryapp;
+package com.example.diaryapp.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Rect;
@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.diaryapp.R;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;

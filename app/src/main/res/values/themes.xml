@@ -6,5 +6,5 @@
         <item name="colorAccent">#90A4AE</item>
     </style>
 
-    <style name="Theme.Diary" parent="Base.Theme.Diary" />
+    <style name="Theme.DiaryApp" parent="Base.Theme.Diary" />
 </resources>
