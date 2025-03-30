@@ -45,4 +45,5 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }
