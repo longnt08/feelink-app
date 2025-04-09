@@ -19,6 +19,11 @@ public class UserViewModel extends AndroidViewModel {
     public void insertNewUser(User user) {
         repository.insertNewUser(user);
     }
+    
+    // Add synchronous user insertion method
+    public long insertUserSync(User user) {
+        return repository.insertUserSync(user);
+    }
 
     public User getUserByEmail(String email) {
         return repository.getUserByEmail(email);

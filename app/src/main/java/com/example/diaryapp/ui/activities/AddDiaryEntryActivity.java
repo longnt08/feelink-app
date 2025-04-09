@@ -3,6 +3,7 @@ package com.example.diaryapp.ui.activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,11 +49,32 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
     private static final int REQUEST_AUDIO_RECORD = 1002;
     private static final int REQUEST_BACKGROUND_PICK = 1003;
     private ImageButton btnAddImage, btnRecordAudio, btnChangeBackground;
+    private int currentUserId = -1;
+    private static final String PREF_NAME = "DiaryAppPrefs";
+    private static final String KEY_USER_ID = "user_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
+
+        // Get user ID from intent first (if passed)
+        currentUserId = getIntent().getIntExtra("userId", -1);
+        
+        // If not in intent, try getting from SharedPreferences
+        if (currentUserId == -1) {
+            SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+            currentUserId = sharedPreferences.getInt(KEY_USER_ID, -1);
+        }
+        
+        // Still no user ID, redirect to login
+        if (currentUserId == -1) {
+            Toast.makeText(this, "Please login to add entries", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         // khoi tao map anh xa
         initializeEmojiMap();
@@ -187,24 +209,17 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
     }
 
     private void saveDiaryEntry(long date) {
-//        Log.d("DEBUG", "saveDiaryEntry() called");
-
         String title = textTitle.getText().toString();
         String content = textContent.getText().toString();
-
-//        Log.d("DEBUG", "Title " + title);
-//        Log.d("DEBUG", "Content " + content);
-//        Log.d("DEBUG", "Date " + selectedDateInMillis );
 
         if(title.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "Please enter both title and content", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Entry newEntry = new Entry(6, title, content, selectedEmojiDescription, date);
-//        Log.d("DEBUG", "New entry created");
+        // Use the current user ID instead of hardcoded value
+        Entry newEntry = new Entry(currentUserId, title, content, selectedEmojiDescription, date);
         entryRepository.insertDiary(newEntry);
-//        Log.d("DEBUG", "Insert called");
 
         // thong bao luu thanh cong
         Toast.makeText(this, "Diary saved successfully", Toast.LENGTH_SHORT).show();

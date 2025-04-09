@@ -41,11 +41,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("de.hdodenhof:circleimageview:3.1.0")
-    implementation("androidx.emoji2:emoji2:1.3.0")
-    implementation("androidx.emoji2:emoji2-views:1.3.0")
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.gson)
+    implementation(libs.appcompat.v161)
+    implementation(libs.circleimageview)
+    implementation("androidx.emoji2:emoji2:1.5.0")
+    implementation("androidx.emoji2:emoji2-views:1.5.0")
 }
