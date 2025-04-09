@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
        entries = new ArrayList<>();
-       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "Haizz", "this is the demo 4", System.currentTimeMillis(), System.currentTimeMillis()));
-       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", System.currentTimeMillis(), System.currentTimeMillis()));
+       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Haizz", "this is the demo 4", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", System.currentTimeMillis()));
 
        diaryAdapter = new DiaryAdapter(this, entries);
        recyclerView.setAdapter(diaryAdapter);

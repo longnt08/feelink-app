@@ -1,6 +1,7 @@
 package com.example.diaryapp.ui.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.local.entities.Entry;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -72,9 +76,23 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         void bind(Entry entry) {
-            diaryDate.setText(entry.getCreatedAt());
+            diaryDate.setText(convertLongToString(entry.getCreatedAt()));
             diaryTitle.setText(entry.getTitle());
             diaryContent.setText(entry.getContent());
         }
+    }
+
+
+     private static String convertLongToString(long createdAt) {
+        DateTimeFormatter formatter = null;
+        String formattedDate = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withZone(ZoneId.systemDefault());
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formattedDate = formatter.format(Instant.ofEpochMilli(createdAt));
+        }
+
+        return formattedDate;
     }
 }

@@ -13,9 +13,6 @@ public interface EntryDao {
     @Insert
     long insertEntry(Entry entry);
 
-    @Insert
-    void insertNewEntry(Entry entry);
-
     @Query("SELECT * FROM entries WHERE user_id  = :userId ORDER BY created_at DESC")
     List<Entry> getEntriesByUserId(int userId);
 }

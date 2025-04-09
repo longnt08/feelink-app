@@ -46,4 +46,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.emoji2:emoji2:1.3.0")
+    implementation("androidx.emoji2:emoji2-views:1.3.0")
 }
