@@ -16,8 +16,8 @@ public class UserViewModel extends AndroidViewModel {
         repository = new UserRepository(application);
     }
 
-    public void insertUser(User user) {
-        repository.insertUser(user);
+    public void insertNewUser(User user) {
+        repository.insertNewUser(user);
     }
 
     public User getUserByEmail(String email) {

@@ -22,4 +22,11 @@ public class User {
 
     @ColumnInfo(name = "created_at")
     public long createdAt;
+
+    public User(String username, String email, String passwordHash, long createdAt) {
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.createdAt = createdAt;
+    }
 }

@@ -10,13 +10,11 @@ import com.example.diaryapp.data.local.dao.EntryDao;
 import com.example.diaryapp.data.local.dao.SettingsDao;
 import com.example.diaryapp.data.local.dao.UserDao;
 import com.example.diaryapp.data.local.entities.Entry;
-import com.example.diaryapp.data.local.entities.EntryMood;
 import com.example.diaryapp.data.local.entities.Media;
-import com.example.diaryapp.data.local.entities.Mood;
 import com.example.diaryapp.data.local.entities.Settings;
 import com.example.diaryapp.data.local.entities.User;
 
-@Database(entities = {User.class, Settings.class, Entry.class, Media.class, Mood.class, EntryMood.class}, version = 2)
+@Database(entities = {User.class, Settings.class, Entry.class, Media.class}, version = 1)
 public abstract class DiaryDatabase extends RoomDatabase {
     private static volatile DiaryDatabase INSTANCE;
 

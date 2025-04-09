@@ -25,21 +25,22 @@ public class Entry {
     @ColumnInfo(name = "title")
     public String title;
 
+    @ColumnInfo(name = "mood")
+    public String mood;
+
     @ColumnInfo(name = "content")
     public String content;
 
     @ColumnInfo(name = "created_at")
     public long createdAt;
 
-    @ColumnInfo(name = "updated_at")
-    public long updatedAt;
 
-    public Entry(int userId, String title, String content, long createdAt, long updatedAt) {
+    public Entry(int userId, String title, String content, String mood, long createdAt) {
         this.userId = userId;
         this.title = title;
         this.content = content;
+        this.mood = mood;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
 
@@ -51,16 +52,8 @@ public class Entry {
         return content;
     }
 
-    public String getCreatedAt() {
-        DateTimeFormatter formatter = null;
-        String formattedDate = "";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withZone(ZoneId.systemDefault());
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            formattedDate = formatter.format(Instant.ofEpochMilli(createdAt));
-        }
-
-        return formattedDate;
+    public long getCreatedAt() {
+        return createdAt;
     }
+
 }
