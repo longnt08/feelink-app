@@ -1,7 +1,9 @@
 package com.example.diaryapp.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import androidx.appcompat.widget.Toolbar;
@@ -84,32 +86,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        diaryDatabase = Room.databaseBuilder(getApplicationContext(),
-//                DiaryDatabase.class, "diary_db")
-//                .allowMainThreadQueries()
-//                .build();
+        diaryDatabase = Room.databaseBuilder(getApplicationContext(),
+                DiaryDatabase.class, "diary_db")
+                .allowMainThreadQueries()
+                .build();
 
-//        User user = new User();
-//        user.username = "Goku";
-//        user.email = "goku@gmail.com";
-//        user.passwordHash = "12345678";
-//        user.createdAt = System.currentTimeMillis();
+        User user = new User("Goku", "goku@gmail.com", "12345678", System.currentTimeMillis());
 
-//        long res = diaryDatabase.userDao().insertUser(user);
+        long res = diaryDatabase.userDao().insertUser(user);
 
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
        entries = new ArrayList<>();
-       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Haizz", "this is the demo 4", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww","happy", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", "thinking", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", "thinking", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Haizz", "this is the demo 4", "sad", System.currentTimeMillis()));
+       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", "happy", System.currentTimeMillis()));
 
        diaryAdapter = new DiaryAdapter(this, entries);
        recyclerView.setAdapter(diaryAdapter);
+
+       // su kien an nut them bai viet
+        fabAddDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddDiaryEntryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

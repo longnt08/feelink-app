@@ -25,6 +25,9 @@ public class Entry {
     @ColumnInfo(name = "title")
     public String title;
 
+    @ColumnInfo(name = "mood")
+    public String mood;
+
     @ColumnInfo(name = "content")
     public String content;
 
@@ -32,10 +35,11 @@ public class Entry {
     public long createdAt;
 
 
-    public Entry(int userId, String title, String content, long createdAt) {
+    public Entry(int userId, String title, String content, String mood, long createdAt) {
         this.userId = userId;
         this.title = title;
         this.content = content;
+        this.mood = mood;
         this.createdAt = createdAt;
     }
 
