@@ -61,8 +61,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         // Log Out
         logoutButton.setOnClickListener(v -> {
-            Toast.makeText(AccountSettingsActivity.this, "Logged Out Successfully!", Toast.LENGTH_SHORT).show();
-            finish(); // Close the activity
+            Intent intent = new Intent(AccountSettingsActivity.this, LogoutActivity.class);
+            startActivity(intent);
         });
     }
 

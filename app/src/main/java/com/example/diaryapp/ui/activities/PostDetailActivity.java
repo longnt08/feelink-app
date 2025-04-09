@@ -1,6 +1,8 @@
 // PostDetailActivity.java
 package com.example.diaryapp.ui.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,8 +65,17 @@ public class PostDetailActivity extends AppCompatActivity {
         settingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open settings
-                Toast.makeText(PostDetailActivity.this, "Settings clicked", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(PostDetailActivity.this)
+                        .setTitle("Xóa bài viết")
+                        .setMessage("Bạn có chắc muốn xóa bài viết này không?")
+                        .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deletePost();
+                            }
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
             }
         });
 
@@ -89,5 +100,11 @@ public class PostDetailActivity extends AppCompatActivity {
         // Here you would typically save the comment to your database
         Toast.makeText(this, "Reply submitted", Toast.LENGTH_SHORT).show();
         commentField.setText("");
+    }
+    private void deletePost() {
+        Toast.makeText(this, "Bài viết đã được xóa", Toast.LENGTH_SHORT).show();
+
+        // Quay lại màn hình trước hoặc trang danh sách bài viết
+        finish();
     }
 }

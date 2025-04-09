@@ -1,6 +1,12 @@
 package com.example.diaryapp.ui.activities;
 
+
 import android.content.Intent;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +18,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -117,6 +125,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+       //Cấp quyền cho BroadcastReceiver trong lớp ReminderReceiver
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
+
     }
 
 
