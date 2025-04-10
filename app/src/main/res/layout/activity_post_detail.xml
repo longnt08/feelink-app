@@ -68,7 +68,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_edittext"
-        android:hint="Your Username"
+        android:hint="@string/your_username"
         android:padding="16dp"
         android:textAlignment="center"
         android:textSize="16sp" />
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameField"
         android:layout_marginTop="24dp"
-        android:text="Your Post"
+        android:text="@string/your_post"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -106,7 +106,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
         android:paddingHorizontal="32dp"
-        android:text="Reply"
+        android:text="@string/reply"
         android:textAllCaps="false"
         android:textColor="@android:color/black" />
 

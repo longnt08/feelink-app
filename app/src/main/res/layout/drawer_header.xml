@@ -7,7 +7,7 @@
     android:layout_height="100dp">
 
     <TextView
-        android:text="Username"
+        android:text="@string/usernameText"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:layout_width="wrap_content"

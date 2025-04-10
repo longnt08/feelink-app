@@ -20,7 +20,7 @@
         android:id="@+id/oldUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter old username"
+        android:hint="@string/enter_old_username"
         android:layout_marginBottom="16dp" />
 
     <!-- New Username Input -->
@@ -28,7 +28,7 @@
         android:id="@+id/newUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter new username"
+        android:hint="@string/enter_new_username"
         android:layout_marginBottom="16dp" />
 
     <!-- Confirm Button -->
@@ -36,5 +36,5 @@
         android:id="@+id/confirmChangeUsernameButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Username" />
+        android:text="@string/change_username" />
 </LinearLayout>

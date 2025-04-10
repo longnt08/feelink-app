@@ -15,7 +15,7 @@
             android:id="@+id/tv_settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cài Đặt"
+            android:text="@string/setting"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chế độ tối"
+            android:text="@string/dark_mode"
             android:textSize="18sp"
             android:paddingBottom="8dp" />
 
@@ -33,13 +33,13 @@
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bật/Tắt chế độ tối" />
+            android:text="@string/switch_dark_mode" />
 
         <!-- Ngôn ngữ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngôn ngữ"
+            android:text="@string/language"
             android:textSize="18sp"
             android:paddingTop="24dp"
             android:paddingBottom="8dp" />
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cỡ chữ"
+            android:text="@string/text_size"
             android:textSize="18sp"
             android:paddingTop="24dp"
             android:paddingBottom="8dp" />
