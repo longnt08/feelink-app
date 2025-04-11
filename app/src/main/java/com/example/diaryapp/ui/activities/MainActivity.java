@@ -40,6 +40,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.Toast;
+
 public class MainActivity extends AppCompatActivity {
 
     DiaryDatabase diaryDatabase;
@@ -118,11 +120,19 @@ public class MainActivity extends AppCompatActivity {
        recyclerView.setAdapter(diaryAdapter);
 
        // su kien an nut them bai viet
-        fabAddDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddDiaryEntryActivity.class);
+        fabAddDiary.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddDiaryActivity.class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện khi nhấn vào nút tài khoản
+        fabAccount.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(MainActivity.this, AccountSettingsActivity.class);
                 startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Lỗi khi mở trang cài đặt tài khoản", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         });
 

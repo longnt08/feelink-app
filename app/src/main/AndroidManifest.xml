@@ -32,6 +32,26 @@
             android:name=".ui.activities.AddDiaryEntryActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.AddDiaryActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.AccountSettingsActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.ChangeUsernameActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.ChangePasswordActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.LogoutActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

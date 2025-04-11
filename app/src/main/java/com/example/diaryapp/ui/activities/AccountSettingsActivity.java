@@ -26,50 +26,71 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_setting);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.account_setting);
 
-        ImageView backButton = findViewById(R.id.backButton); // ID của nút back
-        backButton.setOnClickListener(v -> {
+            // Ánh xạ các view
+            ImageView backButton = findViewById(R.id.backButton);
+            avatarImage = findViewById(R.id.avatarImage);
+            usernameText = findViewById(R.id.usernameText);
+            Button changeAvatarButton = findViewById(R.id.changeAvatarButton);
+            Button changeUsernameButton = findViewById(R.id.changeUsernameButton);
+            Button changePasswordButton = findViewById(R.id.changePasswordButton);
+            Button logoutButton = findViewById(R.id.logoutButton);
+
+            // Xử lý sự kiện nút quay lại
+            backButton.setOnClickListener(v -> finish());
+
+            // Set username từ dữ liệu (tạm thời hardcode)
+            usernameText.setText("YourUsername");
+
+            // Xử lý sự kiện thay đổi avatar
+            changeAvatarButton.setOnClickListener(v -> openImagePicker());
+
+            // Xử lý sự kiện thay đổi username
+            changeUsernameButton.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(AccountSettingsActivity.this, ChangeUsernameActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Lỗi khi mở trang thay đổi tên người dùng", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // Xử lý sự kiện thay đổi mật khẩu
+            changePasswordButton.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(AccountSettingsActivity.this, ChangePasswordActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Lỗi khi mở trang thay đổi mật khẩu", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // Xử lý sự kiện đăng xuất
+            logoutButton.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(AccountSettingsActivity.this, LogoutActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Lỗi khi đăng xuất", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi khi khởi tạo trang cài đặt", Toast.LENGTH_SHORT).show();
             finish();
-        });
-
-        avatarImage = findViewById(R.id.avatarImage);
-        usernameText = findViewById(R.id.usernameText);
-        Button changeAvatarButton = findViewById(R.id.changeAvatarButton);
-        Button changeUsernameButton = findViewById(R.id.changeUsernameButton);
-        Button changePasswordButton = findViewById(R.id.changePasswordButton);
-        Button logoutButton = findViewById(R.id.logoutButton);
-
-        // Set username from data (fake for demo purposes)
-        usernameText.setText("YourUsername");
-
-        // Change Avatar
-        changeAvatarButton.setOnClickListener(v -> openImagePicker());
-
-        // Change Username
-        changeUsernameButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccountSettingsActivity.this, ChangeUsernameActivity.class);
-            startActivity(intent);
-        });
-
-        // Change Password
-        changePasswordButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccountSettingsActivity.this, ChangePasswordActivity.class);
-            startActivity(intent);
-        });
-
-        // Log Out
-        logoutButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AccountSettingsActivity.this, LogoutActivity.class);
-            startActivity(intent);
-        });
+        }
     }
 
-    // Open Image Picker for Avatar Change
+    // Mở image picker để chọn ảnh đại diện
     private void openImagePicker() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        try {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi khi mở thư viện ảnh", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -77,13 +98,12 @@ public class AccountSettingsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
             try {
+                Uri imageUri = data.getData();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 avatarImage.setImageBitmap(bitmap);
             } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lỗi khi tải ảnh", Toast.LENGTH_SHORT).show();
             }
         }
     }
