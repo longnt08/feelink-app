@@ -41,7 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@drawable/input_field"
-        android:hint="@string/username"
+        android:hint="@string/usernameText"
         android:padding="10dp"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/tvUsernameLabel"
