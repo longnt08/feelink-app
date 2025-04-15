@@ -106,22 +106,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       entries = new ArrayList<>();
-       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww","happy", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", "thinking", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", "thinking", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Haizz", "this is the demo 4", "sad", System.currentTimeMillis()));
-       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", "happy", System.currentTimeMillis()));
-
-       diaryAdapter = new DiaryAdapter(this, entries);
-       recyclerView.setAdapter(diaryAdapter);
+//       entries = new ArrayList<>();
+//       entries.add(new Entry(3, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww","happy", System.currentTimeMillis()));
+//       entries.add(new Entry(3, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
+//       entries.add(new Entry(3, "Viet Nam vs China", "this is the demo 2", "thinking", System.currentTimeMillis()));
+//       entries.add(new Entry(3, "Suy nghi", "this is the demo 3", "thinking", System.currentTimeMillis()));
+//       entries.add(new Entry(3, "Haizz", "this is the demo 4", "sad", System.currentTimeMillis()));
+//       entries.add(new Entry(3, "Da qua pepsi oi", "this is the demo 5", "happy", System.currentTimeMillis()));
+//
+//       diaryAdapter = new DiaryAdapter(this, entries);
+//       recyclerView.setAdapter(diaryAdapter);
 
        // su kien an nut them bai viet
         fabAddDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddDiaryEntryActivity.class);
+                intent.putExtra(AddDiaryEntryActivity.MODE_KEY, AddDiaryEntryActivity.MODE_CREATE);
                 startActivity(intent);
             }
         });
@@ -136,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     public void onBackPressed() {

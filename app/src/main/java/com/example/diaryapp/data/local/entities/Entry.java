@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
         foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id", onDelete = CASCADE))
 public class Entry {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "user_id")
     public int userId;
@@ -56,4 +56,11 @@ public class Entry {
         return createdAt;
     }
 
+    public String getMood() {
+        return mood;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

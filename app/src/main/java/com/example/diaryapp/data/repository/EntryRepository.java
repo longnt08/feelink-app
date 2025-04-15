@@ -30,4 +30,11 @@ public class EntryRepository {
             }
         });
     }
+
+    // TODO: create update method
+    public void updateDiary(Entry newEntry) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            entryDao.updateEntry(newEntry);
+        });
+    }
 }
