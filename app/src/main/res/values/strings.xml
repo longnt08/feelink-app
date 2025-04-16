@@ -22,9 +22,11 @@
     <string name="your_username">Your Username</string>
     <string name="your_post">Your Post</string>
     <string name="reply">Reply</string>
-    <string name="setting">Setting</string>
+    <string name="setting">Settings</string>
+    <string name="sync_data">Sync your data</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="switch_dark_mode">Switch Dark Mode</string>
     <string name="language">Language</string>
     <string name="text_size">Text Size</string>
+    <string name="apply_changes">Apply Changes</string>
 </resources>

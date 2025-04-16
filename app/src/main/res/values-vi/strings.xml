@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Diary App</string>
+    <string name="setting">Cài đặt</string>
+    <string name="dark_mode">Chế độ tối</string>
+    <string name="switch_dark_mode">Bật/Tắt chế độ tối</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="text_size">Cỡ chữ</string>
+    <string name="apply_changes">Áp dụng thay đổi</string>
+    <string name="sync_data">Đồng bộ dữ liệu</string>
+</resources>

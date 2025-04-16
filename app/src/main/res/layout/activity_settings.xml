@@ -33,7 +33,9 @@
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/switch_dark_mode" />
+            android:text="@string/switch_dark_mode"
+            android:padding="8dp"
+            android:background="@drawable/rounded_edittext" />
 
         <!-- Ngôn ngữ -->
         <TextView
@@ -47,7 +49,19 @@
         <Spinner
             android:id="@+id/spinner_language"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/rounded_edittext" />
+
+        <!-- Nút áp dụng thay đổi -->
+        <Button
+            android:id="@+id/btn_apply_changes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apply_changes"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white" />
 
         <!-- Font Size (nếu muốn thêm phần chỉnh cỡ chữ) -->
         <TextView
