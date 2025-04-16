@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -89,6 +90,24 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+        // Ánh xạ NavigationView
+        NavigationView navigationView = findViewById(R.id.navigationView);
+
+        // Xử lý sự kiện khi chọn item cài đặt trong menu
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Log.d("MainActivity", "Settings menu item clicked");
+            if (id == R.id.nav_settings) {
+                // Chuyển sang trang SettingsActivity
+                Log.d("MainActivity", "a");
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                Log.d("MainActivity", "b");
+                return true;
+            }
+            return false;
+        });
 
         // bam nut them
 

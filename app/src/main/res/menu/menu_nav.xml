@@ -10,3 +10,4 @@
         android:title="Cài đặt"
         android:icon="@drawable/ic_settings" />
 </menu>
+
