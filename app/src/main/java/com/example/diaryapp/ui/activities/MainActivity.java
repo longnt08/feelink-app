@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(
                 DrawerLayout.LayoutParams.WRAP_CONTENT,
                 DrawerLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = android.view.Gravity.CENTER;
+        params.gravity = Gravity.LEFT;
         drawerLayout.addView(progressBar, params);
 
         // animation

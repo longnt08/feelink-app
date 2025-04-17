@@ -12,7 +12,12 @@
           "package_name": "com.example.diaryapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "587563297567-1nlm5jakcn39su74mfn6j3keijd4jq78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAAygj0NPy1KnB-W1glArD-sMKzABz7fME"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587563297567-1nlm5jakcn39su74mfn6j3keijd4jq78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

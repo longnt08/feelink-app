@@ -15,8 +15,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.local.entities.User;
 import com.example.diaryapp.viewmodel.UserViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
     private EditText etUsername, etPassword, etEmail;
     private Button btnSignup;
     private TextView tvLogin;
@@ -27,6 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // Initialize FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+        // Initialize Firestore
+        mFirestore = FirebaseFirestore.getInstance();
 
         // Initialize ViewModel
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -83,14 +98,43 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Create new user object
-        User newUser = new User(username, email, password, System.currentTimeMillis());
-
         // Show progress dialog
         progressDialog.show();
-        
-        // Use AsyncTask to insert user on a background thread
-        new RegisterUserTask(newUser).execute();
+        // Create Firebase user
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser fbUser = mAuth.getCurrentUser();
+                        // Save user profile to Firestore
+                        Map<String, Object> userMap = new HashMap<>();
+                        userMap.put("username", username);
+                        userMap.put("email", email);
+                        userMap.put("created_at", System.currentTimeMillis());
+                        if (fbUser != null) {
+                            mFirestore.collection("users").document(fbUser.getUid())
+                                .set(userMap)
+                                .addOnSuccessListener(aVoid -> {
+                                    // on Firestore success, save locally
+                                    User newUser = new User(username, email, password, System.currentTimeMillis());
+                                    new RegisterUserTask(newUser).execute();
+                                })
+                                .addOnFailureListener(e -> {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(RegisterActivity.this,
+                                        "Firestore error: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                                });
+                        }
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this,
+                            "Firebase error: " + task.getException().getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
     
     // AsyncTask to handle registration in the background
