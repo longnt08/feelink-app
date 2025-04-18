@@ -11,6 +11,7 @@ import android.os.Build;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -71,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         fabAccount = findViewById(R.id.fabAccount);
         fabAddDiary = findViewById(R.id.fabAddDiary);
-        
+
         // Create a ProgressBar programmatically since it's not in the layout
         progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.GONE);
-        
+
         // Add to layout
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(
                 DrawerLayout.LayoutParams.WRAP_CONTENT,
@@ -98,10 +99,39 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        // bat su kien chon menu
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.
+//                }
+//            }
+//        });
+
+        // Ánh xạ NavigationView
+        NavigationView navigationView = findViewById(R.id.navigationView);
+
+        // Xử lý sự kiện khi chọn item cài đặt trong menu
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Log.d("MainActivity", "Settings menu item clicked");
+            if (id == R.id.nav_settings) {
+                // Chuyển sang trang SettingsActivity
+                Log.d("MainActivity", "a");
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                Log.d("MainActivity", "b");
+                return true;
+            }
+            return false;
+        });
+
+        // bam nut them
         // Get current user ID from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt(KEY_USER_ID, -1);
-        
+
         if (currentUserId == -1) {
             // Not logged in, redirect to RegisterActivity
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -112,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
+
         // Initialize adapter with empty list (will be populated in background)
         diaryAdapter = new DiaryAdapter(this, entries);
         recyclerView.setAdapter(diaryAdapter);
-        
+
         // Initialize database and load entries in background
         initializeDatabase();
 
@@ -130,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
+
         // Account button click event
         fabAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,20 +173,20 @@ public class MainActivity extends AppCompatActivity {
         // Check and request permissions
         checkAndRequestPermissions();
     }
-    
+
     private void initializeDatabase() {
         // Show progress indicator
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        
+
         // Initialize database without allowing main thread queries
         diaryDatabase = DiaryDatabase.getInstance(getApplicationContext());
-        
+
         // Load entries in background
         new LoadEntriesTask().execute(currentUserId);
     }
-    
+
     private class LoadEntriesTask extends AsyncTask<Integer, Void, List<Entry>> {
         @Override
         protected List<Entry> doInBackground(Integer... params) {
@@ -164,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Try to fetch entries for this user
                 // return diaryDatabase.entryDao().getEntriesByUserId(userId);
-                
+
                 // For now, just create some sample entries
                 List<Entry> tempEntries = new ArrayList<>();
                 tempEntries.add(new Entry(userId, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww","happy", System.currentTimeMillis()));
@@ -173,31 +203,31 @@ public class MainActivity extends AppCompatActivity {
                 tempEntries.add(new Entry(userId, "Suy nghi", "this is the demo 3", "thinking", System.currentTimeMillis()));
                 tempEntries.add(new Entry(userId, "Haizz", "this is the demo 4", "sad", System.currentTimeMillis()));
                 tempEntries.add(new Entry(userId, "Da qua pepsi oi", "this is the demo 5", "happy", System.currentTimeMillis()));
-                
+
                 return tempEntries;
             } catch (Exception e) {
                 e.printStackTrace();
                 return new ArrayList<>();
             }
         }
-        
+
         @Override
         protected void onPostExecute(List<Entry> result) {
             // Hide progress indicator
             if (progressBar != null) {
                 progressBar.setVisibility(View.GONE);
             }
-            
+
             // Update UI with the loaded entries
             entries.clear();
             if (result != null && !result.isEmpty()) {
                 entries.addAll(result);
             }
-            
+
             diaryAdapter.notifyDataSetChanged();
         }
     }
-    
+
     private void checkAndRequestPermissions() {
         //Cấp quyền cho BroadcastReceiver trong lớp ReminderReceiver
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -207,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
         }
+
     }
 
     @Override
@@ -217,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();

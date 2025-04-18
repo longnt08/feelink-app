@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Diario</string>
+    <string name="navigation_drawer_open">Apri menu</string>
+    <string name="navigation_drawer_close">Chiudi menu</string>
+    <string name="back_button">Indietro</string>
+    <string name="usernameText">Nome utente</string>
+    <string name="account_settings">Impostazioni account</string>
+    <string name="change_avatar">Cambia avatar</string>
+    <string name="change_username">Cambia nome utente</string>
+    <string name="change_password">Cambia password</string>
+    <string name="logout">Disconnettersi</string>
+    <string name="login">Accedi</string>
+    <string name="signup">Registrati</string>
+    <string name="select_date">Seleziona data</string>
+    <string name="old_password">Cancella vecchia password</string>
+    <string name="new_password">Nuova password</string>
+     <string name="enter_username">inserisci il nome utente</string>
+    <string name="enter_password">Cancella password</string>
+    <string name="enter_old_username">Cancella vecchio nome utente</string>
+    <string name="enter_new_username">Cancella nuovo nome utente</string>
+    <string name="passwordText">Password</string>
+    <string name="your_username">Cancella il tuo nome utente</string>
+    <string name="your_post">Cancella il tuo post</string>
+    <string name="reply">Rispondi</string>
+    <string name="setting">Impostazioni</string>
+    <string name="sync_data">Sincronizza i dati</string>
+    <string name="dark_mode">Modalità scura</string>
+    <string name="switch_dark_mode">Attiva la modalità scura</string>
+    <string name="language">lingua</string>
+    <string name="text_size">Dimensione del testo</string>
+    <string name="apply_changes">Applica modifiche</string>
+
+</resources>
