@@ -67,18 +67,20 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public static class DiaryViewHolder extends RecyclerView.ViewHolder {
-        TextView diaryTitle, diaryContent, diaryDate;
+        TextView diaryTitle, diaryContent, diaryDate, entryEmoji;
         public DiaryViewHolder(@NonNull View itemView) {
             super(itemView);
             diaryDate = itemView.findViewById(R.id.diaryDate);
             diaryTitle = itemView.findViewById(R.id.diaryTitle);
             diaryContent = itemView.findViewById(R.id.diaryContent);
+            entryEmoji = itemView.findViewById(R.id.entryEmoji);
         }
 
         void bind(Entry entry) {
             diaryDate.setText(convertLongToString(entry.getCreatedAt()));
             diaryTitle.setText(entry.getTitle());
             diaryContent.setText(entry.getContent());
+            entryEmoji.setText(convertToEmoji(entry.getMood()));
         }
     }
 
@@ -94,5 +96,15 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         return formattedDate;
+    }
+    private static String convertToEmoji(String mood) {
+        switch (mood) {
+            case "Happy": return "\uD83D\uDE0A";
+            case "Sad": return "\uD83D\uDE14";
+            case "Angry": return "\uD83D\uDE21";
+            case "Funny": return "\uD83D\uDE02";
+            case "Love": return "\uD83D\uDE0D";
+            default: return "\uD83D\uDE0A";
+        }
     }
 }

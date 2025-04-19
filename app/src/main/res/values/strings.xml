@@ -29,4 +29,5 @@
     <string name="language">Language</string>
     <string name="text_size">Text Size</string>
     <string name="apply_changes">Apply Changes</string>
+    <string name="email">Email</string>
 </resources>

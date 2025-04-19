@@ -20,7 +20,7 @@ public class Entry {
     public long id;
 
     @ColumnInfo(name = "user_id")
-    public int userId;
+    public long userId;
 
     @ColumnInfo(name = "title")
     public String title;
@@ -35,7 +35,7 @@ public class Entry {
     public long createdAt;
 
 
-    public Entry(int userId, String title, String content, String mood, long createdAt) {
+    public Entry(long userId, String title, String content, String mood, long createdAt) {
         this.userId = userId;
         this.title = title;
         this.content = content;

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
         indices = {@Index(value = "email", unique = true)})
 public class User {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "username")
     public String username;

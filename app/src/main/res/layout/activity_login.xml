@@ -3,169 +3,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/loginView">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="20dp">
 
-        <!-- Giao diện khi không có bàn phím -->
-        <FrameLayout
-            android:id="@+id/normalLayout"
+        <!-- Hình nền trên -->
+
+        <!-- Chữ DIARY không xoay (thay vì xoay gây lỗi khi bàn phím hiện) -->
+        <ImageView
+            android:id="@+id/loginBackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="350dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_background" />
 
-            <!-- Hình nền trên -->
-            <ImageView
-                android:id="@+id/loginBackground"
-                android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/login_background" />
-
-            <!-- Chữ DIARY nằm theo chiều dọc -->
-            <TextView
-                android:id="@+id/tvDiaryVertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginTop="180dp"
-                android:text="DIARY"
-                android:textColor="@android:color/black"
-                android:textSize="70sp"
-                android:rotation="90" />
-
-            <!-- Nội dung phía dưới -->
-            <LinearLayout
-                android:id="@+id/contentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginTop="450dp">
-
-                <!-- Ô nhập Username -->
-                <EditText
-                    android:id="@+id/etUsername"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:gravity="center"
-                    android:hint="@string/usernameText"
-                    android:padding="10dp"
-                    android:textSize="16sp" />
-
-                <!-- Ô nhập Password -->
-                <EditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:gravity="center"
-                    android:hint="@string/passwordText"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:textSize="16sp" />
-
-                <!-- Nút Đăng nhập -->
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_button"
-                    android:backgroundTint="@null"
-                    android:text="@string/login"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                <!-- Text Đăng ký -->
-                <TextView
-                    android:id="@+id/tvSignup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/signup"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:clickable="true"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- Giao diện khi có bàn phím -->
-        <LinearLayout
-            android:id="@+id/keyboardLayout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvFeelink"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:visibility="gone">
+            android:text="FEELINK"
+            android:textColor="@android:color/black"
+            android:textSize="50sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/cooper_black"/>
 
-            <!-- Khoảng trống phía trên -->
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
+        <!-- Ô nhập email -->
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_edittext"
+            android:hint="@string/email"
+            android:padding="10dp"
+            android:textSize="16sp" />
 
-            <!-- Chữ DIARY không xoay -->
-            <TextView
-                android:id="@+id/tvDiaryHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DIARY"
-                android:textColor="@android:color/black"
-                android:textSize="70sp"
-                android:layout_marginBottom="50dp" />
+        <!-- Ô nhập Password -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_edittext"
+            android:gravity="center"
+            android:hint="@string/passwordText"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textSize="16sp" />
 
-            <!-- Ô nhập Username -->
-            <EditText
-                android:id="@+id/etUsername"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_edittext"
-                android:gravity="center"
-                android:hint="@string/usernameText"
-                android:padding="10dp"
-                android:textSize="16sp" />
+        <!-- Nút Đăng nhập -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@null"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
-            <!-- Ô nhập Password -->
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_edittext"
-                android:gravity="center"
-                android:hint="@string/passwordText"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:textSize="16sp" />
+        <!-- Text Đăng ký -->
+        <TextView
+            android:id="@+id/tvSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signup"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_marginTop="10dp" />
 
-            <!-- Nút Đăng nhập -->
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_button"
-                android:backgroundTint="@null"
-                android:text="@string/login"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-            <!-- Text Đăng ký -->
-            <TextView
-                android:id="@+id/tvSignup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/signup"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:clickable="true"/>
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 </ScrollView>

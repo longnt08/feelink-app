@@ -14,7 +14,7 @@ import com.example.diaryapp.data.local.entities.Media;
 import com.example.diaryapp.data.local.entities.Settings;
 import com.example.diaryapp.data.local.entities.User;
 
-@Database(entities = {User.class, Settings.class, Entry.class, Media.class}, version = 1)
+@Database(entities = {User.class, Settings.class, Entry.class, Media.class}, version = 2)
 public abstract class DiaryDatabase extends RoomDatabase {
     private static volatile DiaryDatabase INSTANCE;
 

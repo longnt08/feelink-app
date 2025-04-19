@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Animation rotateOpen, rotateClose;
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
-    private int currentUserId = -1;
+    private long currentUserId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,31 +66,35 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // Get current user ID from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getLong(KEY_USER_ID, -1);
+
+        if (currentUserId == -1) {
+            // Not logged in, redirect to RegisterActivity
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         // anh xa view
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         toolbar = findViewById(R.id.toolbar);
         fabAccount = findViewById(R.id.fabAccount);
         fabAddDiary = findViewById(R.id.fabAddDiary);
+        progressBar = findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Create a ProgressBar programmatically since it's not in the layout
-        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
-        progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.GONE);
-
-        // Add to layout
-        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(
-                DrawerLayout.LayoutParams.WRAP_CONTENT,
-                DrawerLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.LEFT;
-        drawerLayout.addView(progressBar, params);
-
-        // animation
-        rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open);
-        rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close);
 
         // setup toobar thanh ActionBar
         setSupportActionBar(toolbar);
+
+        // Initialize database and load entries in background
+        initializeDatabase();
 
         // nut 3 gach mo menu
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -98,16 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        // bat su kien chon menu
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.
-//                }
-//            }
-//        });
 
         // Ánh xạ NavigationView
         NavigationView navigationView = findViewById(R.id.navigationView);
@@ -127,28 +121,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // bam nut them
-        // Get current user ID from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getInt(KEY_USER_ID, -1);
-
-        if (currentUserId == -1) {
-            // Not logged in, redirect to RegisterActivity
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
-        recyclerView = findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         // Initialize adapter with empty list (will be populated in background)
         diaryAdapter = new DiaryAdapter(this, entries);
         recyclerView.setAdapter(diaryAdapter);
-
-        // Initialize database and load entries in background
-        initializeDatabase();
 
         // su kien an nut them bai viet
         fabAddDiary.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AddDiaryEntryActivity.class);
                 // Pass the user ID to the activity
                 intent.putExtra("userId", currentUserId);
+                intent.putExtra(AddDiaryEntryActivity.MODE_KEY, AddDiaryEntryActivity.MODE_CREATE);
                 startActivity(intent);
             }
         });
@@ -187,24 +163,20 @@ public class MainActivity extends AppCompatActivity {
         new LoadEntriesTask().execute(currentUserId);
     }
 
-    private class LoadEntriesTask extends AsyncTask<Integer, Void, List<Entry>> {
+    private class LoadEntriesTask extends AsyncTask<Long, Void, List<Entry>> {
         @Override
-        protected List<Entry> doInBackground(Integer... params) {
-            int userId = params[0];
+        protected List<Entry> doInBackground(Long...params) {
+            long userId = params[0];
             try {
                 // Try to fetch entries for this user
-                // return diaryDatabase.entryDao().getEntriesByUserId(userId);
+//                 entries = diaryDatabase.entryDao().getEntriesByUserId(userId);
 
-                // For now, just create some sample entries
                 List<Entry> tempEntries = new ArrayList<>();
-                tempEntries.add(new Entry(userId, "Vui qua", "this is the demo 0, the content will be set to be very long to test the result when display in screen, hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww","happy", System.currentTimeMillis()));
-                tempEntries.add(new Entry(userId, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
-                tempEntries.add(new Entry(userId, "Viet Nam vs China", "this is the demo 2", "thinking", System.currentTimeMillis()));
-                tempEntries.add(new Entry(userId, "Suy nghi", "this is the demo 3", "thinking", System.currentTimeMillis()));
-                tempEntries.add(new Entry(userId, "Haizz", "this is the demo 4", "sad", System.currentTimeMillis()));
-                tempEntries.add(new Entry(userId, "Da qua pepsi oi", "this is the demo 5", "happy", System.currentTimeMillis()));
+                tempEntries.add(new Entry(userId, "Vui qua", "this is the demo 0, ...", "happy", System.currentTimeMillis()));
+//                tempEntries.add(new Entry(userId, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
 
-                return tempEntries;
+                 Log.d("MainActivity", "Loaded entries: " + tempEntries.size());
+                 return tempEntries;
             } catch (Exception e) {
                 e.printStackTrace();
                 return new ArrayList<>();
@@ -223,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
             if (result != null && !result.isEmpty()) {
                 entries.addAll(result);
             }
-
             diaryAdapter.notifyDataSetChanged();
         }
     }

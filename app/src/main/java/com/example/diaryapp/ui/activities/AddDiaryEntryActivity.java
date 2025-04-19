@@ -58,7 +58,7 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
     private static final int REQUEST_AUDIO_RECORD = 1002;
     private static final int REQUEST_BACKGROUND_PICK = 1003;
     private ImageButton btnAddImage, btnRecordAudio, btnChangeBackground;
-    private int currentUserId = -1;
+    private long currentUserId = -1;
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
 
@@ -68,12 +68,12 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_entry);
 
         // Get user ID from intent first (if passed)
-        currentUserId = getIntent().getIntExtra("userId", -1);
-        
+        currentUserId = getIntent().getLongExtra("user_id", -1);
+
         // If not in intent, try getting from SharedPreferences
         if (currentUserId == -1) {
             SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-            currentUserId = sharedPreferences.getInt(KEY_USER_ID, -1);
+            currentUserId = sharedPreferences.getLong(KEY_USER_ID, -1);
         }
         
         // Still no user ID, redirect to login
@@ -399,7 +399,7 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
             return;
         }
 
-        Entry newEntry = new Entry(6, title, content, selectedEmojiDescription, selectedTimestamp);
+        Entry newEntry = new Entry(currentUserId, title, content, selectedEmojiDescription, selectedTimestamp);
 
         // TODO: dung Executor hoac Coroutines/LiveData
         new Thread(() -> {
