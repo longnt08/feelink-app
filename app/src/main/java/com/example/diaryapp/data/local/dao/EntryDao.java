@@ -32,4 +32,23 @@ public interface EntryDao {
     @Query("SELECT strftime('%Y-W%W', created_at / 1000, 'unixepoch') as date, COUNT(*) as count " +
             "FROM entries WHERE user_id = :userId GROUP BY strftime('%Y-W%W', created_at / 1000, 'unixepoch') ORDER BY date")
     List<FrequencyCount> getEntryFrequencyByWeek(long userId);
+    
+    // Thêm các phương thức hỗ trợ đồng bộ
+    @Query("SELECT * FROM entries WHERE is_synced = 0 AND user_id = :userId AND is_deleted = 0")
+    List<Entry> getUnsyncedEntries(long userId);
+    
+    @Query("UPDATE entries SET is_synced = 1, last_synced_at = :timestamp, firebase_id = :firebaseId WHERE id = :id")
+    void markAsSynced(long id, String firebaseId, long timestamp);
+    
+    @Query("SELECT * FROM entries WHERE updated_at > last_synced_at AND user_id = :userId")
+    List<Entry> getModifiedSinceLastSync(long userId);
+    
+    @Query("UPDATE entries SET is_deleted = 1, updated_at = :timestamp WHERE id = :id")
+    void markAsDeleted(long id, long timestamp);
+    
+    @Query("SELECT * FROM entries WHERE is_deleted = 1 AND is_synced = 0 AND user_id = :userId")
+    List<Entry> getDeletedUnsyncedEntries(long userId);
+    
+    @Query("DELETE FROM entries WHERE id = :id")
+    void deleteEntry(long id);
 }

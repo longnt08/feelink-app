@@ -58,4 +58,10 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    
+    // WorkManager for background sync
+    implementation("androidx.work:work-runtime:2.8.1")
+    
+    // SwipeRefreshLayout for manual sync
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

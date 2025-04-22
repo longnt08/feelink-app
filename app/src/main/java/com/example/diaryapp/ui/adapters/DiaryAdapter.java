@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.local.entities.Entry;
 import com.example.diaryapp.ui.activities.AddDiaryEntryActivity;
+import com.example.diaryapp.ui.activities.AddDiaryEntryActivity;
+import com.example.diaryapp.viewmodel.DiaryViewModel;
 
 import java.time.Instant;
 import java.time.ZoneId;

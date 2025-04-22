@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -37,14 +39,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.DiaryDatabase;
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.data.repository.EntryRepository;
 import com.example.diaryapp.ui.adapters.DiaryAdapter;
 import com.example.diaryapp.viewmodel.DiaryViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private DiaryAdapter diaryAdapter;
     private List<Entry> entries = new ArrayList<>();
     private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -64,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USERNAME = "username";
+    private static final String KEY_FIREBASE_USER_ID = "firebase_user_id";
     private long currentUserId = -1;
     private String currentUsername = "";
+    private String firebaseUserId = "";
     private DiaryViewModel diaryViewModel;
     TextView drawerUsername;
+    private EntryRepository entryRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
         // Initialize database and load entries in background
         initializeDatabase();
 
+        // Khởi tạo EntryRepository
+        entryRepository = new EntryRepository(this);
+
         // viewmodel + livedata setup
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
         diaryViewModel.init(this);
@@ -93,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
         });
         diaryViewModel.getLoading().observe(this, isLoading -> {
             progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            if (swipeRefreshLayout != null && !isLoading) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
         });
+
+        // Connect ViewModel to Adapter for delete functionality
+        diaryAdapter.setViewModel(diaryViewModel);
 
         // goi load du lieu
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -110,12 +129,16 @@ public class MainActivity extends AppCompatActivity {
         // Xử lý sự kiện khi chọn item cài đặt trong menu
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            Log.d("MainActivity", "Settings menu item clicked");
+            Log.d("MainActivity", "Menu item clicked: " + id);
             if (id == R.id.nav_settings) {
                 // Chuyển sang trang SettingsActivity
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 intent.putExtra("username", currentUsername);
                 startActivity(intent);
+                return true;
+            } else if (id == R.id.nav_sync) {
+                // Thực hiện đồng bộ thủ công khi người dùng chọn
+                performManualSync();
                 return true;
             }
             return false;
@@ -144,8 +167,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Thiết lập SwipeRefreshLayout để đồng bộ khi người dùng kéo xuống
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(this::performManualSync);
+        }
+
         // Check and request permissions
         checkAndRequestPermissions();
+
+        // Thiết lập đồng bộ định kỳ
+        setupPeriodicSync();
     }
 
     private void setupLayout() {
@@ -153,6 +184,17 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         currentUserId = sharedPreferences.getLong(KEY_USER_ID, -1);
         currentUsername = sharedPreferences.getString(KEY_USERNAME, "");
+        firebaseUserId = sharedPreferences.getString(KEY_FIREBASE_USER_ID, "");
+
+        // Nếu chưa có firebase_user_id, lấy từ FirebaseAuth nếu có
+        if (firebaseUserId.isEmpty()) {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (firebaseUser != null) {
+                firebaseUserId = firebaseUser.getUid();
+                // Lưu lại Firebase user ID
+                sharedPreferences.edit().putString(KEY_FIREBASE_USER_ID, firebaseUserId).apply();
+            }
+        }
 
         if (currentUserId == -1) {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -173,6 +215,9 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         drawerUsername = findViewById(R.id.drawerUsername);
 
+        // Thêm SwipeRefreshLayout nếu có trong layout
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
         // setup toolbar thanh ActionBar
         setSupportActionBar(toolbar);
         diaryAdapter = new DiaryAdapter(this);
@@ -188,6 +233,46 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize database without allowing main thread queries
         diaryDatabase = DiaryDatabase.getInstance(getApplicationContext());
+    }
+
+    /**
+     * Thiết lập đồng bộ định kỳ với Firebase
+     */
+    private void setupPeriodicSync() {
+        if (firebaseUserId.isEmpty()) {
+            Log.w(TAG, "Cannot setup sync: No Firebase user ID available");
+            return;
+        }
+
+        EntryRepository entryRepository = new EntryRepository(this);
+        entryRepository.setupPeriodicSync();
+        Log.d(TAG, "Periodic sync setup completed");
+    }
+
+    /**
+     * Thực hiện đồng bộ thủ công khi người dùng yêu cầu
+     */
+    private void performManualSync() {
+        if (firebaseUserId.isEmpty()) {
+            Toast.makeText(this, "Không thể đồng bộ: Bạn chưa đăng nhập Firebase", Toast.LENGTH_SHORT).show();
+            if (swipeRefreshLayout != null) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            return;
+        }
+
+        Toast.makeText(this, "Đang đồng bộ dữ liệu...", Toast.LENGTH_SHORT).show();
+        EntryRepository repo = new EntryRepository(this);
+        repo.syncNow();
+
+        // Sau 2 giây, tải lại dữ liệu từ cơ sở dữ liệu cục bộ
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            diaryViewModel.loadEntries(currentUserId);
+            if (swipeRefreshLayout != null) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            Toast.makeText(this, "Đồng bộ hoàn tất", Toast.LENGTH_SHORT).show();
+        }, 2000);
     }
 
     private void checkAndRequestPermissions() {

@@ -34,6 +34,22 @@ public class Entry {
     @ColumnInfo(name = "created_at")
     public long createdAt;
 
+    // Thêm các trường mới hỗ trợ đồng bộ
+    @ColumnInfo(name = "updated_at")
+    public long updatedAt;
+
+    @ColumnInfo(name = "last_synced_at")
+    public long lastSyncedAt;
+
+    @ColumnInfo(name = "firebase_id")
+    public String firebaseId;
+
+    @ColumnInfo(name = "is_synced")
+    public boolean isSynced;
+
+    @ColumnInfo(name = "is_deleted")
+    public boolean isDeleted;
+
 
     public Entry(long userId, String title, String content, String mood, long createdAt) {
         this.userId = userId;
@@ -41,6 +57,10 @@ public class Entry {
         this.content = content;
         this.mood = mood;
         this.createdAt = createdAt;
+        this.updatedAt = createdAt;
+        this.lastSyncedAt = 0;
+        this.isSynced = false;
+        this.isDeleted = false;
     }
 
 
@@ -62,6 +82,47 @@ public class Entry {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    // Thêm getters và setters cho các trường mới
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public long getLastSyncedAt() {
+        return lastSyncedAt;
+    }
+
+    public void setLastSyncedAt(long lastSyncedAt) {
+        this.lastSyncedAt = lastSyncedAt;
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public boolean isSynced() {
+        return isSynced;
+    }
+
+    public void setSynced(boolean synced) {
+        isSynced = synced;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public long getId() {
