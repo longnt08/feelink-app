@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loginView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@color/white">
 
     <!-- Bố cục chính chia đôi màn hình -->
     <LinearLayout
+        android:id="@+id/normalLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <!-- Phần bên trái chiếm 1/2 màn hình -->
@@ -24,27 +27,38 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/login_background" />
 
-            <!-- Chữ DIARY nằm theo chiều dọc -->
+            <!-- Chữ FEELINK nằm theo chiều dọc -->
             <TextView
-                android:id="@+id/tvDiary"
+                android:id="@+id/tvDiaryVertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="DIARY"
+                android:text="FEELINK"
                 android:textColor="@android:color/black"
-                android:textSize="70sp"
-                android:rotation="90" />
+                android:textSize="50sp"
+                android:rotation="90"
+                android:fontFamily="@font/cooper_black" />
         </FrameLayout>
 
         <!-- Phần bên phải chiếm 1/2 màn hình -->
         <LinearLayout
-            android:id="@+id/contentLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:paddingHorizontal="20dp">
+
+            <!-- Chữ FEELINK phía trên form đăng nhập -->
+            <TextView
+                android:id="@+id/tvDiaryHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FEELINK"
+                android:textColor="@android:color/black"
+                android:textSize="40sp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/cooper_black" />
 
             <!-- Ô nhập Username -->
             <EditText
@@ -54,7 +68,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="center"
-                android:hint="Username"
+                android:hint="@string/email"
                 android:padding="10dp"
                 android:textSize="16sp" />
 
@@ -66,7 +80,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="center"
-                android:hint="Password"
+                android:hint="@string/passwordText"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textSize="16sp" />
@@ -79,7 +93,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="@null"
-                android:text="LOGIN"
+                android:text="@string/login"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark" />
@@ -90,10 +104,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Signup"
+                android:text="@string/signup"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:focusable="true" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</ScrollView>

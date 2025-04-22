@@ -8,21 +8,13 @@
     android:background="@drawable/register_background"
     tools:context=".ui.activities.RegisterActivity">
 
-    <!-- Bố cục chia đôi màn hình -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.45" />
-
-    <!-- Tiêu đề bên trái -->
+    <!-- Phần bên trái cho tiêu đề -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Make\nyour new\nAccount"
-        android:textSize="40sp"
+        android:textSize="36sp"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#000000"
@@ -33,85 +25,127 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
-    <!-- Form đăng ký bên phải -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- Guideline để chia màn hình thành 2 phần -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <!-- Phần bên phải cho form đăng ký -->
+    <!-- Ô nhập Username -->
+    <TextView
+        android:id="@+id/tvUsernameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/usernameText"
+        android:textSize="14sp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"/>
 
-        <!-- Ô nhập Username -->
-        <TextView
-            android:id="@+id/tvUsernameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textSize="14sp"
-            android:textColor="#000000"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginStart="20dp"/>
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@drawable/input_field"
+        android:hint="@string/usernameText"
+        android:padding="10dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvUsernameLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"/>
+        
+    <!-- Ô nhập Email -->
+    <TextView
+        android:id="@+id/tvEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/etUsername"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"/>
 
-        <EditText
-            android:id="@+id/etUsername"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/input_field"
-            android:hint="Enter username"
-            android:padding="10dp"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvUsernameLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@drawable/input_field"
+        android:hint="Enter email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"/>
 
-        <!-- Ô nhập Password -->
-        <TextView
-            android:id="@+id/tvPasswordLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textSize="14sp"
-            android:textColor="#000000"
-            app:layout_constraintTop_toBottomOf="@id/etUsername"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"/>
+    <!-- Ô nhập Password -->
+    <TextView
+        android:id="@+id/tvPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/passwordText"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"/>
 
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/input_field"
-            android:hint="Enter password"
-            android:padding="10dp"
-            android:textSize="16sp"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@drawable/input_field"
+        android:hint="@string/enter_password"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"/>
 
-        <!-- Nút đăng ký -->
-        <Button
-            android:id="@+id/btnSignup"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Signup"
-            android:backgroundTint="#B0BEC5"
-            android:textColor="#000000"
-            app:layout_constraintTop_toBottomOf="@id/etPassword"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+    <!-- Nút đăng ký -->
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="@string/signup"
+        android:backgroundTint="#B0BEC5"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Already have an account link -->
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Login"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSignup"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
