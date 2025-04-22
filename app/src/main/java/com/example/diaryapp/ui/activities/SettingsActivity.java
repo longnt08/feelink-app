@@ -13,6 +13,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -45,6 +47,14 @@ public class SettingsActivity extends AppCompatActivity {
         // Log thiết lập hiện tại
         Log.d(TAG, "Current settings from SharedPreferences - language: " + currentLanguage + ", darkMode: " + isDarkMode);
         
+        // Thiết lập nút Back
+        ImageView btnBack = findViewById(R.id.btn_back);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        } else {
+            Log.e(TAG, "btnBack not found");
+        }
+        
         // Khởi tạo views và xử lý sự kiện
         initializeViews();
     }
@@ -56,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
             languageSpinner = findViewById(R.id.spinner_language);
             btnApplyChanges = findViewById(R.id.btn_apply_changes);
             seekBarFontSize = findViewById(R.id.seekbar_font_size);
+            TextView tvFontSizeValue = findViewById(R.id.tv_font_size_value);
             
             if (darkModeSwitch != null) {
                 darkModeSwitch.setChecked(isDarkMode);
@@ -77,6 +88,27 @@ public class SettingsActivity extends AppCompatActivity {
                 btnApplyChanges.setOnClickListener(v -> applySettings());
             } else {
                 Log.e(TAG, "btnApplyChanges not found");
+            }
+            
+            // Cập nhật giá trị cỡ chữ khi kéo thanh trượt
+            if (seekBarFontSize != null && tvFontSizeValue != null) {
+                seekBarFontSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        // Cập nhật giá trị hiển thị
+                        tvFontSizeValue.setText(String.valueOf(progress));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // Không làm gì
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        // Không làm gì
+                    }
+                });
             }
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
