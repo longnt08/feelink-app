@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Diary App</string>
+    <string name="app_name">Nhật ký</string>
+    <string name="navigation_drawer_open">Mở menu</string>
+    <string name="navigation_drawer_close">Đóng menu</string>
+    <string name="back_button">Quay lại</string>
+    <string name="usernameText">Tên người dùng</string>
+    <string name="account_settings">Trang cài đặt tài khoản</string>
+    <string name="change_avatar">Thay đổi ảnh đại diện</string>
+    <string name="change_username">Thay đổi tên người dùng</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="login">Đăng nhập</string>
+    <string name="signup">Đăng ký</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="old_password">Mật khẩu cũ</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="enter_username">Nhập tên người dùng</string>
+    <string name="enter_password">Nhập mật khẩu</string>
+    <string name="enter_old_username">Nhập tên người dùng cũ</string>
+    <string name="enter_new_username">Nhập tên người dùng mới</string>
+    <string name="passwordText">Mật khẩu</string>
+    <string name="your_username">Tên người dùng của bạn</string>
+    <string name="your_post">Bài viết của bạn</string>
+    <string name="reply">Phản hồi</string>
     <string name="setting">Cài đặt</string>
+    <string name="sync_data">Đồng bộ dữ liệu của bạn</string>
     <string name="dark_mode">Chế độ tối</string>
-    <string name="switch_dark_mode">Bật/Tắt chế độ tối</string>
+    <string name="switch_dark_mode">Bật chế độ tối</string>
     <string name="language">Ngôn ngữ</string>
-    <string name="text_size">Cỡ chữ</string>
+    <string name="text_size">Kích thước chữ</string>
     <string name="apply_changes">Áp dụng thay đổi</string>
-    <string name="sync_data">Đồng bộ dữ liệu</string>
+    <string name="email">Email</string>
 </resources>
