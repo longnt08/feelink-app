@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.data.local.entities.FrequencyCount;
 import com.example.diaryapp.data.local.entities.MoodCount;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public interface EntryDao {
 
     @Query("SELECT mood, COUNT(*) as count FROM entries WHERE user_id = :userId GROUP BY mood")
     List<MoodCount> getMoodStatistics(long userId);
+
+    @Query("SELECT strftime('%Y-W%W', created_at / 1000, 'unixepoch') as date, COUNT(*) as count " +
+            "FROM entries WHERE user_id = :userId GROUP BY strftime('%Y-W%W', created_at / 1000, 'unixepoch') ORDER BY date")
+    List<FrequencyCount> getEntryFrequencyByWeek(long userId);
 }

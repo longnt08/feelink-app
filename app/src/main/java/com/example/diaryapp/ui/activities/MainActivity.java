@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -76,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         // Initialize database and load entries in background
         initializeDatabase();
 
+        diaryAdapter = new DiaryAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(diaryAdapter);
+
         // viewmodel + livedata setup
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
         diaryViewModel.init(this);
@@ -91,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // goi load du lieu
-        diaryViewModel.loadEntries(currentUserId);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    diaryViewModel.loadEntries(currentUserId);
+        }, 200);
 
         // nut 3 gach mo menu
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -168,9 +176,9 @@ public class MainActivity extends AppCompatActivity {
         // setup toolbar thanh ActionBar
         setSupportActionBar(toolbar);
         // setup adapter
-        diaryAdapter = new DiaryAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(diaryAdapter);
+//        diaryAdapter = new DiaryAdapter(this);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(diaryAdapter);
     }
 
     private void initializeDatabase() {
@@ -204,9 +212,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        diaryViewModel.loadEntries(currentUserId);
+//    }
+
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         diaryViewModel.loadEntries(currentUserId);
     }
 }

@@ -40,66 +40,20 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("DiaryAdapter", "onCreateViewHolder");
-        RecyclerView.ViewHolder viewHolder = null;
-
-        if (viewType == TYPE_HEADER) {
-            try {
-                Log.d("DiaryAdapter", "onCreateViewHolder - Inflating header...");
-                View view = LayoutInflater.from(context).inflate(R.layout.recycle_header, parent, false);
-                Log.d("DiaryAdapter", "onCreateViewHolder - Inflated header view OK.");
-                viewHolder = new HeaderViewHolder(view); // Gán vào biến tạm
-                Log.d("DiaryAdapter", "onCreateViewHolder - Created HeaderViewHolder OK.");
-            } catch (Exception e) {
-                // Log lỗi chi tiết nếu inflate hoặc tạo ViewHolder thất bại
-                Log.e("DiaryAdapter", "onCreateViewHolder - LỖI khi inflate/tạo Header view!", e);
-                // Bạn có thể throw lại lỗi hoặc trả về một ViewHolder trống để tránh crash hoàn toàn
-                // return new EmptyViewHolder(new FrameLayout(parent.getContext())); // Ví dụ trả về ViewHolder trống
-            }
-        } else { // TYPE_ITEM
-            try {
-                Log.d("DiaryAdapter", "onCreateViewHolder - Inflating item (diary_row)...");
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_row, parent, false);
-                Log.d("DiaryAdapter", "onCreateViewHolder - Inflated item view OK.");
-                viewHolder = new DiaryViewHolder(view); // Gán vào biến tạm
-                Log.d("DiaryAdapter", "onCreateViewHolder - Created DiaryViewHolder OK.");
-            } catch (Exception e) {
-                // Log lỗi chi tiết
-                Log.e("DiaryAdapter", "onCreateViewHolder - LỖI khi inflate/tạo Item view (diary_row.xml)!", e);
-                // return new EmptyViewHolder(new FrameLayout(parent.getContext())); // Ví dụ
-            }
+        if(viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(context).inflate(R.layout.recycle_header, parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_row, parent, false);
+            return new DiaryViewHolder(view);
         }
-
-        if (viewHolder == null) {
-            // Trường hợp rất xấu: không thể tạo bất kỳ ViewHolder nào
-            Log.e("DiaryAdapter", "onCreateViewHolder - KHÔNG THỂ TẠO ViewHolder cho viewType: " + viewType);
-            // Phải trả về một cái gì đó, ví dụ một ViewHolder trống đơn giản
-            // Tạo một FrameLayout đơn giản làm view tạm
-            throw new IllegalStateException("Không thể tạo ViewHolder cho viewType: " + viewType);
-            //android.widget.FrameLayout dummyView = new android.widget.FrameLayout(parent.getContext());
-            //return new RecyclerView.ViewHolder(dummyView) {}; // Trả về ViewHolder cơ bản
-        }
-
-        Log.d("DiaryAdapter", "onCreateViewHolder - KẾT THÚC - viewType: " + viewType);
-        return viewHolder; // Trả về viewHolder đã tạo
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof DiaryViewHolder) {
-            Log.d("DiaryAdapter", "Binding position: " + position);
             int actualPosition = position -1;
-            if (actualPosition >= 0 && actualPosition < entries.size()) {
-                Entry currentEntry = entries.get(actualPosition);
-                Log.d("DiaryAdapter", "Current entry: " + currentEntry.getTitle());
-                ((DiaryViewHolder) holder).bind(currentEntry);
-            } else {
-                Log.w("DiaryAdapter", "Invalid actualPosition: " + actualPosition);
-            }
-//            if (actualPosition >= 0 && actualPosition < entries.size()) {
-//                ((DiaryViewHolder) holder).bind(entries.get(actualPosition));
-//            }
+            ((DiaryViewHolder) holder).bind(entries.get(actualPosition));
         }
     }
 
@@ -114,24 +68,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setData(List<Entry> entries) {
-        Log.d("DiaryAdapter", "setData - BẮT ĐẦU - newEntries size: " + (entries == null ? "null" : entries.size()));
-        Log.d("DiaryAdapter", "setData - Kích thước entries HIỆN TẠI (trước clear): " + this.entries.size());
-
         if (entries == null) {
-            Log.w("DiaryAdapter", "setData - newEntries là null, đang clear entries.");
             this.entries.clear();
         } else {
             this.entries.clear();
-            Log.d("DiaryAdapter", "setData - Đã clear entries, chuẩn bị addAll.");
             this.entries.addAll(entries);
-            // Log kích thước ngay sau khi cập nhật
-            Log.d("DiaryAdapter", "setData - Kích thước entries SAU KHI addAll: " + this.entries.size());
         }
-
-        Log.d("DiaryAdapter", "setData - Chuẩn bị gọi notifyDataSetChanged().");
         notifyDataSetChanged();
-        Log.d("DiaryAdapter", "setData - ĐÃ GỌI notifyDataSetChanged().");
-
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -144,13 +87,11 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView diaryTitle, diaryContent, diaryDate, entryEmoji;
         public DiaryViewHolder(@NonNull View itemView) {
             super(itemView);
-            Log.d("DiaryViewHolder", "Constructor - BẮT ĐẦU");
             try {
                 diaryDate = itemView.findViewById(R.id.diaryDate);
                 diaryTitle = itemView.findViewById(R.id.diaryTitle);
                 diaryContent = itemView.findViewById(R.id.diaryContent);
                 entryEmoji = itemView.findViewById(R.id.entryEmoji);
-                Log.d("DiaryViewHolder", "Constructor - findViewById xong.");
 
 
                 // Kiểm tra null ngay lập tức
@@ -162,17 +103,9 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } catch (Exception e) {
                 Log.e("DiaryViewHolder", "Constructor - LỖI trong khi findViewById!", e);
             }
-            Log.d("DiaryViewHolder", "Constructor - KẾT THÚC");
         }
 
         void bind(Entry entry) {
-            if (diaryTitle == null || diaryContent == null || diaryDate == null || entryEmoji == null) {
-                Log.e("DiaryViewHolder", "One or more TextViews are NULL!");
-                return; // Thoát nếu view bị null
-            }
-            Log.d("DiaryViewHolder", "Binding static text for title: " + entry.getTitle());
-
-            // TODO: bo comment khi fix xong
             diaryDate.setText(convertLongToString(entry.getCreatedAt()));
             diaryTitle.setText(entry.getTitle());
             diaryContent.setText(entry.getContent());

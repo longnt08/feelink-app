@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.diaryapp.data.DiaryDatabase;
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.data.local.entities.FrequencyCount;
 import com.example.diaryapp.data.local.entities.MoodCount;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.concurrent.Executors;
 public class DiaryViewModel extends ViewModel {
     private final MutableLiveData<List<Entry>> entriesLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<MoodCount>> moodStatisticsLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<FrequencyCount>> weeklyFrequencyLiveData = new MutableLiveData<>();
     private DiaryDatabase diaryDatabase;
     private MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
 
@@ -24,6 +26,13 @@ public class DiaryViewModel extends ViewModel {
         return loading;
     }
 
+    public void init(Context context) {
+        if (diaryDatabase == null) {
+            diaryDatabase = DiaryDatabase.getInstance(context);
+        }
+    }
+
+    // thong ke mood
     public LiveData<List<MoodCount>> getMoodStatistics() {
         return moodStatisticsLiveData;
     }
@@ -35,12 +44,8 @@ public class DiaryViewModel extends ViewModel {
             Log.d("DiaryViewModel", "Loaded mood stats: " + result.size());
         });
     }
-    public void init(Context context) {
-        if (diaryDatabase == null) {
-            diaryDatabase = DiaryDatabase.getInstance(context);
-        }
-    }
 
+    // lay bai viet
     public LiveData<List<Entry>> getEntries() {
         return entriesLiveData;
     }
@@ -52,6 +57,19 @@ public class DiaryViewModel extends ViewModel {
             entriesLiveData.postValue(result);
             loading.postValue(false);
             Log.d("DiaryViewModel", "Loaded entries: " + result.size());
+        });
+    }
+
+    // thong ke tan suat
+    public LiveData<List<FrequencyCount>> getFrequencyStats() {
+        return weeklyFrequencyLiveData;
+    }
+
+    public void loadFrequencyStats(long userId) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<FrequencyCount> result = diaryDatabase.entryDao().getEntryFrequencyByWeek(userId);
+            weeklyFrequencyLiveData.postValue(result);
+            Log.d("DiaryViewModel", "Loaded weekly frequency stats: " + result.size());
         });
     }
 }
