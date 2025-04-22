@@ -14,6 +14,8 @@ import com.example.diaryapp.R;
 import com.example.diaryapp.data.DiaryDatabase;
 import com.example.diaryapp.data.local.dao.EntryDao;
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.data.local.entities.MoodCount;
+import com.example.diaryapp.viewmodel.DiaryViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -35,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EntryDao entryDao;
     private String currentUserName;
     private TextView usernameTextView;
+    DiaryViewModel diaryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +49,23 @@ public class ProfileActivity extends AppCompatActivity {
         setupLayout();
 
         // tao bieu do
-        setupEmotionPieChart(pieChart);
+        diaryViewModel.loadMoodStats(currentUserId);
+
+        diaryViewModel.getMoodStatistics().observe(this, moodCounts -> {
+            if(moodCounts != null && !moodCounts.isEmpty()) {
+                setupEmotionPieChart(pieChart, moodCounts);
+            }
+        });
     }
 
     private void setupLayout() {
-        //lay username
+        //lay username & id
         currentUserName = getIntent().getStringExtra("username");
+        currentUserId = getIntent().getLongExtra("user_id", -1);
+
+        // khoi tao diaryViewModel
+        diaryViewModel = new DiaryViewModel();
+        diaryViewModel.init(this);
 
         // anh xa view
         pieChart = findViewById(R.id.emotionPieChart);
@@ -62,12 +76,13 @@ public class ProfileActivity extends AppCompatActivity {
         usernameTextView.setText(currentUserName);
     }
 
-    private void setupEmotionPieChart(PieChart pieChart) {
+    private void setupEmotionPieChart(PieChart pieChart, List<MoodCount> moodCounts) {
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(40f, "Vui"));
-        entries.add(new PieEntry(25f, "Buồn"));
-        entries.add(new PieEntry(15f, "Tức giận"));
-        entries.add(new PieEntry(20f, "Chill"));
+
+        for (MoodCount moodCount : moodCounts) {
+            entries.add(new PieEntry(moodCount.getCount(), moodCount.getMood()));
+        }
+
 
         PieDataSet dataSet = new PieDataSet(entries, "Cảm xúc");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -80,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         pieChart.setData(data);
         pieChart.setDescription(null);
-        pieChart.setCenterText("Cảm Xúc");
+        pieChart.setCenterText("@strings/emotion_piechart_title");
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.animateY(1000, Easing.EaseInOutQuad);
         pieChart.invalidate();
