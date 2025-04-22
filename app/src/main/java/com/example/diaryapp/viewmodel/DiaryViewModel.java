@@ -11,6 +11,7 @@ import com.example.diaryapp.data.DiaryDatabase;
 import com.example.diaryapp.data.local.entities.Entry;
 import com.example.diaryapp.data.local.entities.FrequencyCount;
 import com.example.diaryapp.data.local.entities.MoodCount;
+import com.example.diaryapp.data.repository.EntryRepository;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -20,6 +21,7 @@ public class DiaryViewModel extends ViewModel {
     private final MutableLiveData<List<MoodCount>> moodStatisticsLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<FrequencyCount>> weeklyFrequencyLiveData = new MutableLiveData<>();
     private DiaryDatabase diaryDatabase;
+    private EntryRepository entryRepository;
     private MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
 
     public MutableLiveData<Boolean> getLoading() {
@@ -29,6 +31,9 @@ public class DiaryViewModel extends ViewModel {
     public void init(Context context) {
         if (diaryDatabase == null) {
             diaryDatabase = DiaryDatabase.getInstance(context);
+        }
+        if (entryRepository == null) {
+            entryRepository = new EntryRepository(context);
         }
     }
 
@@ -71,5 +76,14 @@ public class DiaryViewModel extends ViewModel {
             weeklyFrequencyLiveData.postValue(result);
             Log.d("DiaryViewModel", "Loaded weekly frequency stats: " + result.size());
         });
+    }
+    
+    // Xóa bài viết với đồng bộ Firebase
+    public void deleteEntry(long entryId) {
+        if (entryRepository != null) {
+            entryRepository.deleteDiary(entryId);
+        } else {
+            Log.e("DiaryViewModel", "EntryRepository is null, can't delete entry");
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.diaryapp.ui.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.ui.activities.AddDiaryEntryActivity;
+import com.example.diaryapp.viewmodel.DiaryViewModel;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -26,10 +31,15 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 1;
     private Context context;
     private List<Entry> entries = new ArrayList<>();
+    private DiaryViewModel viewModel;
 
     public DiaryAdapter(Context context) {
         this.context = context;
         this.entries = new ArrayList<>();
+    }
+    
+    public void setViewModel(DiaryViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -52,9 +62,44 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof DiaryViewHolder) {
-            int actualPosition = position -1;
-            ((DiaryViewHolder) holder).bind(entries.get(actualPosition));
+            int actualPosition = position - 1;
+            Entry entry = entries.get(actualPosition);
+            ((DiaryViewHolder) holder).bind(entry);
+            
+            // Set click listener for the entire row
+            holder.itemView.setOnClickListener(v -> {
+                // Open edit activity
+                Intent intent = new Intent(context, AddDiaryEntryActivity.class);
+                intent.putExtra("entryId", entry.id);
+                intent.putExtra("userId", entry.userId);
+                intent.putExtra(AddDiaryEntryActivity.MODE_KEY, AddDiaryEntryActivity.MODE_EDIT);
+                context.startActivity(intent);
+            });
+            
+            // Set up delete button functionality
+            ImageButton deleteButton = holder.itemView.findViewById(R.id.btnDelete);
+            if (deleteButton != null) {
+                deleteButton.setOnClickListener(v -> {
+                    confirmDelete(entry);
+                });
+            }
         }
+    }
+    
+    private void confirmDelete(Entry entry) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Xác nhận xóa");
+        builder.setMessage("Bạn có chắc chắn muốn xóa bài viết này?");
+        builder.setPositiveButton("Xóa", (dialog, which) -> {
+            if (viewModel != null) {
+                viewModel.deleteEntry(entry.id);
+                // Remove from local list
+                entries.remove(entry);
+                notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
     }
 
     @Override
@@ -85,6 +130,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static class DiaryViewHolder extends RecyclerView.ViewHolder {
         TextView diaryTitle, diaryContent, diaryDate, entryEmoji;
+        
         public DiaryViewHolder(@NonNull View itemView) {
             super(itemView);
             try {
@@ -92,7 +138,6 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 diaryTitle = itemView.findViewById(R.id.diaryTitle);
                 diaryContent = itemView.findViewById(R.id.diaryContent);
                 entryEmoji = itemView.findViewById(R.id.entryEmoji);
-
 
                 // Kiểm tra null ngay lập tức
                 if (diaryDate == null) Log.e("DiaryViewHolder", "diaryDate is NULL!");
