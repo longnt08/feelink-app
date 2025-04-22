@@ -1,6 +1,7 @@
 package com.example.diaryapp.viewmodel;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -37,6 +38,7 @@ public class DiaryViewModel extends ViewModel {
             List<Entry> result = diaryDatabase.entryDao().getEntriesByUserId(userId);
             entriesLiveData.postValue(result);
             loading.postValue(false);
+            Log.d("DiaryViewModel", "Loaded entries: " + result.size());
         });
     }
 }

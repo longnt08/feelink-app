@@ -23,6 +23,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private ImageView avatarImage;
     private TextView usernameText;
+    private String currentUsername = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

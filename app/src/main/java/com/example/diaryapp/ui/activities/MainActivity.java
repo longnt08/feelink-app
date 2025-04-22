@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private FloatingActionButton fabAddDiary, fabAccount;
-    private Animation rotateOpen, rotateClose;
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USERNAME = "username";
@@ -80,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
         // viewmodel + livedata setup
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
         diaryViewModel.init(this);
+
         diaryViewModel.getEntries().observe(this, entries -> {
                     if (entries != null) {
+                        Log.d("MainActivity", "Observed entries: " + entries.size());
                         diaryAdapter.setData(entries);
                     }
         });
@@ -105,18 +106,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Settings menu item clicked");
             if (id == R.id.nav_settings) {
                 // Chuyển sang trang SettingsActivity
-                Log.d("MainActivity", "a");
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                intent.putExtra("username", currentUsername);
                 startActivity(intent);
-                Log.d("MainActivity", "b");
                 return true;
             }
             return false;
         });
-
-        // Initialize adapter with empty list (will be populated in background)
-        diaryAdapter = new DiaryAdapter(this, entries);
-        recyclerView.setAdapter(diaryAdapter);
 
         // su kien an nut them bai viet
         fabAddDiary.setOnClickListener(new View.OnClickListener() {
@@ -166,12 +162,15 @@ public class MainActivity extends AppCompatActivity {
         fabAddDiary = findViewById(R.id.fabAddDiary);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         NavigationView navigationView = findViewById(R.id.navigationView);
         progressBar.setVisibility(View.GONE);
 
         // setup toolbar thanh ActionBar
         setSupportActionBar(toolbar);
+        // setup adapter
+        diaryAdapter = new DiaryAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(diaryAdapter);
     }
 
     private void initializeDatabase() {
