@@ -30,6 +30,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ import com.example.diaryapp.R;
 import com.example.diaryapp.data.DiaryDatabase;
 import com.example.diaryapp.data.local.entities.Entry;
 import com.example.diaryapp.ui.adapters.DiaryAdapter;
+import com.example.diaryapp.viewmodel.DiaryViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -58,7 +60,10 @@ public class MainActivity extends AppCompatActivity {
     private Animation rotateOpen, rotateClose;
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
+    private static final String KEY_USERNAME = "username";
     private long currentUserId = -1;
+    private String currentUsername = "";
+    private DiaryViewModel diaryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,35 +71,26 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Get current user ID from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        currentUserId = sharedPreferences.getLong(KEY_USER_ID, -1);
-
-        if (currentUserId == -1) {
-            // Not logged in, redirect to RegisterActivity
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
-        // anh xa view
-        drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
-        toolbar = findViewById(R.id.toolbar);
-        fabAccount = findViewById(R.id.fabAccount);
-        fabAddDiary = findViewById(R.id.fabAddDiary);
-        progressBar = findViewById(R.id.progressBar);
-        recyclerView = findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        progressBar.setVisibility(View.GONE);
-
-        // setup toobar thanh ActionBar
-        setSupportActionBar(toolbar);
+        // setup layout
+        setupLayout();
 
         // Initialize database and load entries in background
         initializeDatabase();
+
+        // viewmodel + livedata setup
+        diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
+        diaryViewModel.init(this);
+        diaryViewModel.getEntries().observe(this, entries -> {
+                    if (entries != null) {
+                        diaryAdapter.setData(entries);
+                    }
+        });
+        diaryViewModel.getLoading().observe(this, isLoading -> {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
+
+        // goi load du lieu
+        diaryViewModel.loadEntries(currentUserId);
 
         // nut 3 gach mo menu
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -102,9 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        // Ánh xạ NavigationView
-        NavigationView navigationView = findViewById(R.id.navigationView);
 
         // Xử lý sự kiện khi chọn item cài đặt trong menu
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -141,13 +134,44 @@ public class MainActivity extends AppCompatActivity {
         fabAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AccountSettingsActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                intent.putExtra("user_id", currentUserId);
+                intent.putExtra("username", currentUsername);
                 startActivity(intent);
             }
         });
 
         // Check and request permissions
         checkAndRequestPermissions();
+    }
+
+    private void setupLayout() {
+        // Get current user ID from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        currentUserId = sharedPreferences.getLong(KEY_USER_ID, -1);
+        currentUsername = sharedPreferences.getString(KEY_USERNAME, "");
+
+        if (currentUserId == -1) {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        // anh xa view
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        toolbar = findViewById(R.id.toolbar);
+        fabAccount = findViewById(R.id.fabAccount);
+        fabAddDiary = findViewById(R.id.fabAddDiary);
+        progressBar = findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        progressBar.setVisibility(View.GONE);
+
+        // setup toolbar thanh ActionBar
+        setSupportActionBar(toolbar);
     }
 
     private void initializeDatabase() {
@@ -158,45 +182,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize database without allowing main thread queries
         diaryDatabase = DiaryDatabase.getInstance(getApplicationContext());
-
-        // Load entries in background
-        new LoadEntriesTask().execute(currentUserId);
-    }
-
-    private class LoadEntriesTask extends AsyncTask<Long, Void, List<Entry>> {
-        @Override
-        protected List<Entry> doInBackground(Long...params) {
-            long userId = params[0];
-            try {
-                // Try to fetch entries for this user
-//                 entries = diaryDatabase.entryDao().getEntriesByUserId(userId);
-
-                List<Entry> tempEntries = new ArrayList<>();
-                tempEntries.add(new Entry(userId, "Vui qua", "this is the demo 0, ...", "happy", System.currentTimeMillis()));
-//                tempEntries.add(new Entry(userId, "Con ga trong", "this is the demo 1", "normal", System.currentTimeMillis()));
-
-                 Log.d("MainActivity", "Loaded entries: " + tempEntries.size());
-                 return tempEntries;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Entry> result) {
-            // Hide progress indicator
-            if (progressBar != null) {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            // Update UI with the loaded entries
-            entries.clear();
-            if (result != null && !result.isEmpty()) {
-                entries.addAll(result);
-            }
-            diaryAdapter.notifyDataSetChanged();
-        }
     }
 
     private void checkAndRequestPermissions() {
@@ -209,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
+        }
 
     @Override
     public void onBackPressed() {
@@ -223,9 +208,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh entries when returning to this screen
-        if (diaryDatabase != null && currentUserId != -1) {
-            new LoadEntriesTask().execute(currentUserId);
-        }
+        diaryViewModel.loadEntries(currentUserId);
     }
 }

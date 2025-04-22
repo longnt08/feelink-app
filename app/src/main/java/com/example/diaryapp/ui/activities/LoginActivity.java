@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String PREF_NAME = "DiaryAppPrefs";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USER_EMAIL = "user_email";
+    private static final String KEY_USERNAME = "username";
     private ProgressDialog progressDialog;
 
     @Override
@@ -142,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(KEY_USER_ID, user.id);
         editor.putString(KEY_USER_EMAIL, user.email);
+        editor.putString(KEY_USERNAME, user.username);
         editor.apply();
     }
 

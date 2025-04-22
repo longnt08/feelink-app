@@ -60,6 +60,12 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return entries.size() + 1;
     }
 
+    public void setData(List<Entry> entries) {
+        this.entries.clear();
+        this.entries.addAll(entries);
+        notifyDataSetChanged();
+    }
+
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public HeaderViewHolder(View itemView) {
             super(itemView);
