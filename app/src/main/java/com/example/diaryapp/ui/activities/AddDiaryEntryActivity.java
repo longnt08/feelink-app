@@ -97,12 +97,14 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         String mode = intent.getStringExtra(MODE_KEY);
         long entryId = intent.getLongExtra(ENTRY_ID_KEY, -1);
 
+        currentMode = mode;
+
         // kiem tra mode hop le
         if (currentMode == null) {
             currentMode = MODE_CREATE;
         }
 
-        setUpInitialUIState(); // cai dat trang thai ban dau dua tren mode
+        configureUIForMode();
         setupListeners(); // cai dat cac listners
 
         // tai du lieu neu la mode VIEW hoac EDIT
@@ -118,19 +120,6 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
             finish();
         }
 
-        if (MODE_CREATE.equals(mode)) {
-
-        } else if (MODE_EDIT.equals(mode) || MODE_VIEW.equals(mode) && entryId != -1) {
-            EntryDao dao = DiaryDatabase.getInstance(this).entryDao();
-            new Thread(() -> {
-                Entry entry = dao.getEntryById(entryId);
-                runOnUiThread(() -> {
-                    if (entry != null) {
-                        populateEntryFields(entry);
-                    }
-                });
-            });
-        }
     }
 
     private void updateEmojiUI(String selectedEmoji, String description) {
@@ -139,14 +128,14 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         tvEmojiButton.setText(selectedEmoji);
     }
 
-    private String findEmojiDescription(String description) {
-        for (Map.Entry<String, String> mapEntry : emojiMap.entrySet()) {
-            if (Objects.equals(description, mapEntry.getValue())) {
-                return mapEntry.getKey();
-            }
-        }
-        return "😊";
-    }
+//    private String findEmojiDescription(String description) {
+//        for (Map.Entry<String, String> mapEntry : emojiMap.entrySet()) {
+//            if (Objects.equals(description, mapEntry.getValue())) {
+//                return mapEntry.getKey();
+//            }
+//        }
+//        return "😊";
+//    }
 
     private void setDefaultDate() {
         Calendar currentCal = Calendar.getInstance();
@@ -235,16 +224,23 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
     }
 
     private void setUpInitialUIState() {
-        // an het cac nut dieu khien chinh truoc
-//        saveButton.setVisibility(View.GONE);
-        editButton.setVisibility(View.GONE);
+        boolean isViewMode = currentMode.equals(MODE_VIEW);
+        boolean isEditMode = currentMode.equals(MODE_EDIT);
+        boolean isCreateMode = currentMode.equals(MODE_CREATE);
 
-        // an cac nut toolbar khi o che do view
-        if (currentMode.equals(MODE_VIEW)) {
-            bottomToolBar.setVisibility(View.GONE);
-        } else {
-            bottomToolBar.setVisibility(View.VISIBLE);
-        }
+        // Xử lý hiển thị bottomToolBar
+        bottomToolBar.setVisibility(isViewMode ? View.GONE : View.VISIBLE);
+
+        // Xử lý trạng thái của các trường nhập
+        textTitle.setEnabled(!isViewMode);
+        textContent.setEnabled(!isViewMode);
+        tvSelectedDate.setClickable(!isViewMode);
+        tvSelectedDate.setFocusable(!isViewMode);
+        tvSelectedDate.setFocusableInTouchMode(!isViewMode);
+
+        // Xử lý nút Save và Edit
+        saveButton.setVisibility((isEditMode || isCreateMode) ? View.VISIBLE : View.GONE);
+        editButton.setVisibility(isViewMode ? View.VISIBLE : View.GONE);
     }
 
     // cau hinh UI cuoi cung sau khi da co mode va data
@@ -261,17 +257,18 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
             case MODE_EDIT:
                 setTitle("Edit Diary");
                 enableEditing(true);
-                saveButton.setText("Update");
                 saveButton.setVisibility(View.VISIBLE);
-                editButton.setVisibility(View.GONE);
+                editButton.setVisibility(View.VISIBLE);
                 bottomToolBar.setVisibility(View.VISIBLE);
                 break;
             case MODE_VIEW:
             default:
                 setTitle("View diary");
                 enableEditing(false);
-                saveButton.setVisibility(View.GONE);
+                backButton.setEnabled(true);
+                saveButton.setVisibility(View.INVISIBLE);
                 editButton.setVisibility(View.VISIBLE);
+                tvEmojiButton.setVisibility(View.VISIBLE);
                 bottomToolBar.setVisibility(View.GONE);
                 break;
         }
@@ -284,6 +281,10 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         tvEmojiButton.setEnabled(b);
         saveButton.setEnabled(b);
         backButton.setEnabled(b);
+        editButton.setEnabled(b);
+        tvSelectedDate.setClickable(b);
+        tvSelectedDate.setFocusable(b);
+        tvSelectedDate.setFocusableInTouchMode(b);
 
         btnAddImage.setEnabled(b);
         btnRecordAudio.setEnabled(b);
@@ -318,11 +319,11 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
 
     private String convertToEmoji(String mood) {
         switch (mood) {
-            case "Happy": return "\uD83D\uDE0A";
-            case "Sad": return "\uD83D\uDE14";
-            case "Angry": return "\uD83D\uDE21";
-            case "Funny": return "\uD83D\uDE02";
-            case "Love": return "\uD83D\uDE0D";
+            case "happy": return "\uD83D\uDE0A";
+            case "sad": return "\uD83D\uDE14";
+            case "angry": return "\uD83D\uDE21";
+            case "funny": return "\uD83D\uDE02";
+            case "love": return "\uD83D\uDE0D";
             default: return "\uD83D\uDE0A";
         }
     }
@@ -332,7 +333,6 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         emojiMap.put("😢", "sad");
         emojiMap.put("😠", "angry");
         emojiMap.put("😍", "love");
-        emojiMap.put("🤔", "thinking");
         emojiMap.put("😐", "normal");
     }
 
@@ -349,7 +349,6 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         TextView emojiSad = dialogView.findViewById(R.id.emoji_sad);
         TextView emojiAngry = dialogView.findViewById(R.id.emoji_angry);
         TextView emojiLove = dialogView.findViewById(R.id.emoji_love);
-        TextView emojiThinking = dialogView.findViewById(R.id.emoji_thinking);
         TextView emojiNormal = dialogView.findViewById(R.id.emoji_normal);
 
         // tao mot OnClickListener chung
@@ -378,21 +377,15 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
         emojiSad.setOnClickListener(emojiClickListener);
         emojiAngry.setOnClickListener(emojiClickListener);
         emojiLove.setOnClickListener(emojiClickListener);
-        emojiThinking.setOnClickListener(emojiClickListener);
         emojiNormal.setOnClickListener(emojiClickListener);
 
         dialog.show();
     }
 
     private void saveDiaryEntry() {
-//        Log.d("DEBUG", "saveDiaryEntry() called");
 
         String title = textTitle.getText().toString().trim();
         String content = textContent.getText().toString().trim();
-
-//        Log.d("DEBUG", "Title " + title);
-//        Log.d("DEBUG", "Content " + content);
-//        Log.d("DEBUG", "Date " + selectedDateInMillis );
 
         if(title.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "Please enter both title and content", Toast.LENGTH_SHORT).show();
@@ -435,17 +428,6 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
                 }
             });
         }).start();
-    }
-
-    private void disableEditing() {
-        textTitle.setEnabled(false);
-        textContent.setEnabled(false);
-        tvSelectedDate.setEnabled(false);
-        tvEmojiButton.setEnabled(false);
-        findViewById(R.id.saveButton).setVisibility(View.GONE);
-        btnAddImage.setVisibility(View.GONE);
-        btnChangeBackground.setVisibility(View.GONE);
-        btnRecordAudio.setVisibility(View.GONE);
     }
 
     private void openGalleryForImage() {

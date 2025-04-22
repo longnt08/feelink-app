@@ -1,6 +1,7 @@
 package com.example.diaryapp.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.local.entities.Entry;
+import com.example.diaryapp.ui.activities.AddDiaryEntryActivity;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -93,13 +95,6 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 diaryContent = itemView.findViewById(R.id.diaryContent);
                 entryEmoji = itemView.findViewById(R.id.entryEmoji);
 
-
-                // Kiểm tra null ngay lập tức
-                if (diaryDate == null) Log.e("DiaryViewHolder", "diaryDate is NULL!");
-                if (diaryTitle == null) Log.e("DiaryViewHolder", "diaryTitle is NULL!");
-                if (diaryContent == null) Log.e("DiaryViewHolder", "diaryContent is NULL!");
-                if (entryEmoji == null) Log.e("DiaryViewHolder", "entryEmoji is NULL!");
-
             } catch (Exception e) {
                 Log.e("DiaryViewHolder", "Constructor - LỖI trong khi findViewById!", e);
             }
@@ -110,6 +105,14 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             diaryTitle.setText(entry.getTitle());
             diaryContent.setText(entry.getContent());
             entryEmoji.setText(convertToEmoji(entry.getMood()));
+
+            // them su kien click
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), AddDiaryEntryActivity.class);
+                intent.putExtra("entry_id", entry.getId());
+                intent.putExtra(AddDiaryEntryActivity.MODE_KEY, AddDiaryEntryActivity.MODE_VIEW);
+                itemView.getContext().startActivity(intent);
+            });
         }
     }
 
@@ -128,11 +131,11 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
     private static String convertToEmoji(String mood) {
         switch (mood) {
-            case "Happy": return "\uD83D\uDE0A";
-            case "Sad": return "\uD83D\uDE14";
-            case "Angry": return "\uD83D\uDE21";
-            case "Funny": return "\uD83D\uDE02";
-            case "Love": return "\uD83D\uDE0D";
+            case "happy": return "\uD83D\uDE0A";
+            case "sad": return "\uD83D\uDE14";
+            case "angry": return "\uD83D\uDE21";
+            case "funny": return "\uD83D\uDE02";
+            case "love": return "\uD83D\uDE0D";
             default: return "\uD83D\uDE0A";
         }
     }

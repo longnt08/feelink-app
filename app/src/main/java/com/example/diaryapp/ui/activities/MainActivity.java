@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private long currentUserId = -1;
     private String currentUsername = "";
     private DiaryViewModel diaryViewModel;
+    TextView drawerUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize database and load entries in background
         initializeDatabase();
-
-        diaryAdapter = new DiaryAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(diaryAdapter);
 
         // viewmodel + livedata setup
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
@@ -172,13 +171,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         NavigationView navigationView = findViewById(R.id.navigationView);
         progressBar.setVisibility(View.GONE);
+        drawerUsername = findViewById(R.id.drawerUsername);
 
         // setup toolbar thanh ActionBar
         setSupportActionBar(toolbar);
-        // setup adapter
-//        diaryAdapter = new DiaryAdapter(this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(diaryAdapter);
+        diaryAdapter = new DiaryAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(diaryAdapter);
     }
 
     private void initializeDatabase() {
