@@ -31,10 +31,15 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 1;
     private Context context;
     private List<Entry> entries = new ArrayList<>();
+    private DiaryViewModel viewModel;
 
     public DiaryAdapter(Context context) {
         this.context = context;
         this.entries = new ArrayList<>();
+    }
+
+    public void setViewModel(DiaryViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override

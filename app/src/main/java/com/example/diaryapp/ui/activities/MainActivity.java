@@ -240,13 +240,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setupPeriodicSync() {
         if (firebaseUserId.isEmpty()) {
-            Log.w(TAG, "Cannot setup sync: No Firebase user ID available");
+            Log.w("MainActivity", "Cannot setup sync: No Firebase user ID available");
             return;
         }
 
         EntryRepository entryRepository = new EntryRepository(this);
         entryRepository.setupPeriodicSync();
-        Log.d(TAG, "Periodic sync setup completed");
+        Log.d("MainActivity", "Periodic sync setup completed");
     }
 
     /**
