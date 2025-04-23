@@ -212,7 +212,7 @@ public class SettingsActivity extends AppCompatActivity {
             getResources().updateConfiguration(config, getResources().getDisplayMetrics());
             
             // Thông báo và khởi động lại activity
-            Toast.makeText(this, "Thiết lập đã được áp dụng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.settingToast), Toast.LENGTH_SHORT).show();
             recreate();
         } catch (Exception e) {
             Log.e(TAG, "Error applying settings: " + e.getMessage());

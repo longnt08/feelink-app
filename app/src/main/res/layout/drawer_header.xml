@@ -7,9 +7,10 @@
     android:layout_height="80dp">
 
     <TextView
-        android:id="@+id/drawerUsername"
-        android:text="@string/usernameText"
+        android:id="@+id/drawerTitle"
+        android:text="Feelink"
         android:textSize="20sp"
+        android:fontFamily="@font/harlowsi"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

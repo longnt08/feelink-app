@@ -2,6 +2,7 @@ package com.example.diaryapp.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diaryapp.R;
@@ -147,4 +149,46 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             default: return "\uD83D\uDE0A";
         }
     }
+
+//    private void setupSwipeToDelete() {
+//        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView,
+//                                  @NonNull RecyclerView.ViewHolder viewHolder,
+//                                  @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//                int position = viewHolder.getAdapterPosition();
+//
+//                if (position == 0) {
+//                    adapter.notifyItemChanged(position); // Không xoá header
+//                    return;
+//                }
+//
+//                // Lấy vị trí thật trong list entries (vì entries không chứa header)
+//                int realPosition = position - 1;
+//
+//                Entry entryToDelete = adapter.entries.get(realPosition);
+//                viewModel.deleteEntry(entryToDelete); // Gửi lệnh xoá lên ViewModel
+//                adapter.entries.remove(realPosition);
+//                adapter.notifyItemRemoved(position);
+//            }
+//
+//            @Override
+//            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+//                                    @NonNull RecyclerView.ViewHolder viewHolder,
+//                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//
+//                // Nếu ông muốn vẽ màu đỏ + icon xoá thì xử lý ở đây
+//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//            }
+//        };
+//
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+//
+//        itemTouchHelper.attachToRecyclerView(recyclerView);
+//    }
 }

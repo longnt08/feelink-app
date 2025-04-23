@@ -39,7 +39,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+//import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.diaryapp.R;
 import com.example.diaryapp.data.DiaryDatabase;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private DiaryAdapter diaryAdapter;
     private List<Entry> entries = new ArrayList<>();
     private ProgressBar progressBar;
-    private SwipeRefreshLayout swipeRefreshLayout;
+//    private SwipeRefreshLayout swipeRefreshLayout;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     private String currentUsername = "";
     private String firebaseUserId = "";
     private DiaryViewModel diaryViewModel;
-    TextView drawerUsername;
     private EntryRepository entryRepository;
 
     @Override
@@ -106,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
         });
         diaryViewModel.getLoading().observe(this, isLoading -> {
             progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            if (swipeRefreshLayout != null && !isLoading) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
+//            if (swipeRefreshLayout != null && !isLoading) {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
         });
 
         // Connect ViewModel to Adapter for delete functionality
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.nav_sync) {
                 // Thực hiện đồng bộ thủ công khi người dùng chọn
-                performManualSync();
+//                performManualSync();
                 return true;
             }
             return false;
@@ -168,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Thiết lập SwipeRefreshLayout để đồng bộ khi người dùng kéo xuống
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setOnRefreshListener(this::performManualSync);
-        }
+//        if (swipeRefreshLayout != null) {
+//            swipeRefreshLayout.setOnRefreshListener(this::performManualSync);
+//        }
 
         // Check and request permissions
         checkAndRequestPermissions();
@@ -213,10 +212,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         NavigationView navigationView = findViewById(R.id.navigationView);
         progressBar.setVisibility(View.GONE);
-        drawerUsername = findViewById(R.id.drawerUsername);
 
         // Thêm SwipeRefreshLayout nếu có trong layout
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+//        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         // setup toolbar thanh ActionBar
         setSupportActionBar(toolbar);
@@ -227,9 +225,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeDatabase() {
         // Show progress indicator
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+//        if (progressBar != null) {
+//            progressBar.setVisibility(View.VISIBLE);
+//        }
 
         // Initialize database without allowing main thread queries
         diaryDatabase = DiaryDatabase.getInstance(getApplicationContext());
@@ -252,28 +250,28 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Thực hiện đồng bộ thủ công khi người dùng yêu cầu
      */
-    private void performManualSync() {
-        if (firebaseUserId.isEmpty()) {
-            Toast.makeText(this, "Không thể đồng bộ: Bạn chưa đăng nhập Firebase", Toast.LENGTH_SHORT).show();
-            if (swipeRefreshLayout != null) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-            return;
-        }
-
-        Toast.makeText(this, "Đang đồng bộ dữ liệu...", Toast.LENGTH_SHORT).show();
-        EntryRepository repo = new EntryRepository(this);
-        repo.syncNow();
+//    private void performManualSync() {
+//        if (firebaseUserId.isEmpty()) {
+//            Toast.makeText(this, "Không thể đồng bộ: Bạn chưa đăng nhập Firebase", Toast.LENGTH_SHORT).show();
+//            if (swipeRefreshLayout != null) {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//            return;
+//        }
+//
+//        Toast.makeText(this, "Đang đồng bộ dữ liệu...", Toast.LENGTH_SHORT).show();
+//        EntryRepository repo = new EntryRepository(this);
+//        repo.syncNow();
 
         // Sau 2 giây, tải lại dữ liệu từ cơ sở dữ liệu cục bộ
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            diaryViewModel.loadEntries(currentUserId);
-            if (swipeRefreshLayout != null) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-            Toast.makeText(this, "Đồng bộ hoàn tất", Toast.LENGTH_SHORT).show();
-        }, 2000);
-    }
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//            diaryViewModel.loadEntries(currentUserId);
+//            if (swipeRefreshLayout != null) {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//            Toast.makeText(this, "Đồng bộ hoàn tất", Toast.LENGTH_SHORT).show();
+//        }, 2000);
+//    }
 
     private void checkAndRequestPermissions() {
         //Cấp quyền cho BroadcastReceiver trong lớp ReminderReceiver

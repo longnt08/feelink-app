@@ -34,7 +34,7 @@
                 android:id="@+id/tv_settings_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/setting"
+                android:text="@string/settingsTitle"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_centerInParent="true"
@@ -101,13 +101,13 @@
                 android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_sort_alphabetically"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="@string/language"
+                android:contentDescription="@string/settingsLanguage"
                 android:tint="@color/text_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/language"
+                android:text="@string/settingsLanguage"
                 android:textSize="18sp"
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/text_color" />
@@ -179,7 +179,7 @@
             android:id="@+id/btn_apply_changes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/apply_changes"
+            android:text="@string/settingsApplyChange"
             android:layout_marginTop="16dp"
             android:textColor="@color/white"
             android:padding="12dp"

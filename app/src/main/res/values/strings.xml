@@ -30,4 +30,22 @@
     <string name="text_size">Text Size</string>
     <string name="apply_changes">Apply Changes</string>
     <string name="email">Email</string>
+    <string name="pieChartName">emotion</string>
+    <string name="frequencyStats">Frequency statistics</string>
+    <string name="emotionStats">Emotion statistics</string>
+    <string name="diaryTitle">Title...</string>
+    <string name="diaryContent...">Write more here...</string>
+    <string name="saveButton">Save</string>
+    <string name="settingToast">Changes have been applied</string>
+    <string name="homeNavBtn">Home</string>
+    <string name="accountNavBtn">Account</string>
+    <string name="settingNavBtn">Settings</string>
+    <string name="syncNavBtn">Sync Data</string>
+    <string name="settingsDarkMode">Dark mode</string>
+    <string name="settingsLanguage">Language</string>
+    <string name="settingsTextSize">Text size</string>
+    <string name="settingsApplyChange">Apply changes</string>
+    <string name="settingsTitle">Settings</string>
+    <string name="insertSuccess">Insert success</string>
+    <string name="insertFail">Insert fail</string>
 </resources>

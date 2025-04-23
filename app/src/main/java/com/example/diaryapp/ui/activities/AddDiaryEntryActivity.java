@@ -364,7 +364,6 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
                 selectedEmojiDescription = description; // Cập nhật MÔ TẢ để lưu DB
 
                 tvEmojiButton.setText(selectedEmoji); // Cập nhật TextView chính (hiển thị emoji)
-                Toast.makeText(this, "Đã chọn: " + description, Toast.LENGTH_SHORT).show(); // Hiển thị mô tả
             } else {
                 // Xử lý trường hợp không tìm thấy mô tả (nếu có thể xảy ra)
                 Toast.makeText(this, "Lỗi: Không tìm thấy mô tả cho " + clickedEmoji, Toast.LENGTH_SHORT).show();
@@ -413,9 +412,9 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
                 try {
                     entryRepository.insertDiary(newEntry);
                     success = true;
-                    message = "Insert success";
+                    message = getString(R.string.insertSuccess);
                 } catch (Exception e) {
-                    message = "Insert failed";
+                    message = getString(R.string.insertFail);
                 }
             }
             // hien thi Toast va dong Activity tren UI thread

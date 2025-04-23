@@ -106,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         pieChart.setData(data);
         pieChart.setDescription(null);
-        pieChart.setCenterText("@strings/emotion");
+        pieChart.setCenterText(getString(R.string.pieChartName));
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.animateY(1000, Easing.EaseInOutQuad);
         pieChart.invalidate();
