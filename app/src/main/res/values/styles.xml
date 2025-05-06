@@ -1,0 +1,20 @@
+<resources>
+    <!-- Theme mặc định của ứng dụng -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Các thuộc tính của theme chính -->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
+    </style>
+
+    <!-- Theme cho Splash Screen -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Đặt nền cho splash -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowNoTitle">true</item> <!-- Không có tiêu đề -->
+        <item name="android:windowFullscreen">true</item> <!-- Fullscreen nếu cần -->
+        <item name="android:windowTranslucentStatus">true</item> <!-- Trạng thái trong suốt -->
+        <item name="android:statusBarColor">@android:color/transparent</item> <!-- Status bar trong suốt -->
+    </style>
+</resources>
+

@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -41,11 +43,25 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("de.hdodenhof:circleimageview:3.1.0")
-    implementation("androidx.emoji2:emoji2:1.3.0")
-    implementation("androidx.emoji2:emoji2-views:1.3.0")
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.gson)
+    implementation(libs.appcompat.v161)
+    implementation(libs.circleimageview)
+    implementation("androidx.emoji2:emoji2:1.5.0")
+    implementation("androidx.emoji2:emoji2-views:1.5.0")
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation ("com.github.PhilJay:MPAndroidChart:3.1.0")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    
+    // WorkManager for background sync
+    implementation("androidx.work:work-runtime:2.8.1")
+    
+    // SwipeRefreshLayout for manual sync
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

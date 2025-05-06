@@ -1,157 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Top Bar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_back"
-            android:contentDescription="@string/back_button" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cài đặt tài khoản"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- Profile Section -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profileCard"
+    <!-- Header -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        android:text="@string/account_settings"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/back_button" />
 
-            <!-- Avatar Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+    <!-- Avatar Image -->
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_default_avatar"
+        android:scaleType="centerCrop"
+        android:background="@drawable/avatar_background"
+        android:layout_marginBottom="16dp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/avatarImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_default_avatar"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="@color/teal_700" />
+    <!-- Change Avatar Button -->
+    <Button
+        android:id="@+id/changeAvatarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_avatar"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp" />
 
-                <Button
-                    android:id="@+id/changeAvatarButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Thay đổi ảnh đại diện"
-                    android:textColor="@color/teal_700"
-                    android:backgroundTint="@color/white"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-
-            <!-- Username Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="24dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên người dùng"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray" />
-
-                <TextView
-                    android:id="@+id/usernameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="YourUsername"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp" />
-
-                <Button
-                    android:id="@+id/changeUsernameButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Thay đổi tên người dùng"
-                    android:textColor="@color/teal_700"
-                    android:backgroundTint="@color/white"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Security Section -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/securityCard"
+    <!-- Username Text -->
+    <TextView
+        android:id="@+id/usernameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
-        app:layout_constraintTop_toBottomOf="@id/profileCard">
+        android:text="@string/usernameText"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/changeUsernameButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_username"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảo mật"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+    <Button
+        android:id="@+id/changePasswordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_password"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="16dp" />
 
-            <Button
-                android:id="@+id/changePasswordButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Thay đổi mật khẩu"
-                android:textColor="@color/teal_700"
-                android:backgroundTint="@color/white"
-                android:layout_marginTop="16dp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Logout Button -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#818181"
-        android:text="Đăng xuất"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/securityCard"
-        tools:layout_editor_absoluteX="16dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/logout"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffff" />
+</LinearLayout>

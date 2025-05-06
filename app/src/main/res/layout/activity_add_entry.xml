@@ -27,17 +27,16 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:src="@drawable/ic_edit_entry"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/saveButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textContent"
+        app:layout_constraintEnd_toEndOf="@+id/textContent" />
 
     <!-- Save Button -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/saveButton"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +51,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="8dp"
-        android:text="Select date"
+        android:text="@string/select_date"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +81,7 @@
         android:id="@+id/textTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Title..."
+        android:hint="@string/diaryTitle"
         android:textSize="25sp"
         android:textColor="@color/black"
         android:background="@android:color/transparent"
@@ -92,23 +91,26 @@
         android:layout_marginTop="16dp" />
 
     <!-- Content -->
+
+
     <EditText
         android:id="@+id/textContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="Write more here..."
-        android:textSize="16sp"
-        android:textColor="@color/black"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/transparent"
+        android:gravity="top"
+        android:hint="@string/diaryContent..."
         android:inputType="textMultiLine"
         android:minLines="10"
-        android:gravity="top"
-        android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
-
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardBottomToolbar"

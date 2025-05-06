@@ -17,10 +17,10 @@ import java.time.format.DateTimeFormatter;
         foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id", onDelete = CASCADE))
 public class Entry {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "user_id")
-    public int userId;
+    public long userId;
 
     @ColumnInfo(name = "title")
     public String title;
@@ -34,13 +34,33 @@ public class Entry {
     @ColumnInfo(name = "created_at")
     public long createdAt;
 
+    // Thêm các trường mới hỗ trợ đồng bộ
+    @ColumnInfo(name = "updated_at")
+    public long updatedAt;
 
-    public Entry(int userId, String title, String content, String mood, long createdAt) {
+    @ColumnInfo(name = "last_synced_at")
+    public long lastSyncedAt;
+
+    @ColumnInfo(name = "firebase_id")
+    public String firebaseId;
+
+    @ColumnInfo(name = "is_synced")
+    public boolean isSynced;
+
+    @ColumnInfo(name = "is_deleted")
+    public boolean isDeleted;
+
+
+    public Entry(long userId, String title, String content, String mood, long createdAt) {
         this.userId = userId;
         this.title = title;
         this.content = content;
         this.mood = mood;
         this.createdAt = createdAt;
+        this.updatedAt = createdAt;
+        this.lastSyncedAt = 0;
+        this.isSynced = false;
+        this.isDeleted = false;
     }
 
 
@@ -56,4 +76,56 @@ public class Entry {
         return createdAt;
     }
 
+    public String getMood() {
+        return mood;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    // Thêm getters và setters cho các trường mới
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public long getLastSyncedAt() {
+        return lastSyncedAt;
+    }
+
+    public void setLastSyncedAt(long lastSyncedAt) {
+        this.lastSyncedAt = lastSyncedAt;
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public boolean isSynced() {
+        return isSynced;
+    }
+
+    public void setSynced(boolean synced) {
+        isSynced = synced;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

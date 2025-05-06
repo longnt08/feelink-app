@@ -4,12 +4,15 @@
     android:padding="16dp"
     android:background="@color/teal_700"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="80dp">
 
     <TextView
-        android:text="Username"
-        android:textSize="18sp"
+        android:id="@+id/drawerTitle"
+        android:text="Feelink"
+        android:textSize="20sp"
+        android:fontFamily="@font/harlowsi"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>
